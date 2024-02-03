@@ -1,0 +1,96 @@
+@media only screen and (max-width: 600px) {
+    /* Styles for small screens (e.g., smartphones) */
+    .navbar-brand{
+        font-size:1.5rem;
+        color:green;
+
+    }
+    .navbar{
+        width:100%;
+        background-color:#df8456
+    }
+    .body{
+        background-color: aqua;
+    }
+    .navbtn{
+        width:100%;
+        margin-bottom: 1%;
+    }
+    #search-input{
+        margin-bottom: 1%;
+    }
+    .markbtn{
+        background-color: rgb(80, 215, 49);
+        width:100%;
+        margin-bottom: 1%;
+    }
+    .menu-item{
+        width:50%;
+        min-width: 260px;
+        margin-left: 5%;
+        margin-right: 5% ;
+        height:100%
+    }
+    .menu-item:hover{
+        transform: scale(1.05);
+        transition: transform ease-in-out 1s;
+    }
+    .sbtn{
+        margin-top: 2px;
+        width:100%;
+        margin-bottom: 3px;
+        color:white;
+
+    }
+    #container1{
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-top: 1%;
+        margin-top: 10px;
+    }
+    
+    .qbtn{
+        width:100%;
+        margin-bottom: 3px;
+    }
+  }
+  
+  @media only screen and (min-width: 601px) and (max-width: 1024px) {
+    /* Styles for medium screens (e.g., tablets) */
+  }
+  
+  @media only screen and (min-width: 1025px) {
+    /* Styles for large screens (e.g., desktops) */
+  }
+  @keyframes colorChange {
+    0% { color: rgb(224, 8, 252); }
+    25% { color: blue; }
+    50% { color: rgb(102, 255, 176); }
+    75% { color: rgb(242, 255, 0); }
+    100% { color: rgb(12, 210, 255); }
+}
+
+.text {
+    animation: colorChange 10s infinite;
+}
+.blue-background{
+    background-color: rgb(61, 203, 255);
+}
+.btn-coding-ninjas {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-image: url('https://coursereport-production.imgix.net/uploads/school/logo/1323/original/Coding_Ninjas_logo.jpeg?w=200&h=200&dpr=4&q=23');
+    background-size: cover;
+    background-color: #FFF; /* Add background color if needed */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .out-coding-ninjas{
+    display: inline-flex;
+  }
