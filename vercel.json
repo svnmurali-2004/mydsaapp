@@ -6,10 +6,14 @@
         "use": "@vercel/node"
       }
     ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "index.js"
-      }
-    ]
+    
+      
+        "routes": [
+            {"src":"/index.html","headers": { "Content-Type": "text/html" }},
+          { "src": "/index2.js", "headers": { "Content-Type": "application/javascript" } },
+          { "src": "/index.css", "headers": { "Content-Type": "text/css" } }
+        ]
+      
+      
+    
   }
