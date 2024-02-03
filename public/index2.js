@@ -1,13 +1,13 @@
 let i=-1;
 arr=["General Topics"]
-sessionStorage.setItem("userdata",JSON.stringify({_id:"123",status:{solved:["2"]}}))
+sessionStorage.setItem("userdata",JSON.stringify({_id:"123",name:"murali",rollnum:"160122737060",password:"admin",status:{solved:["2"]}}))
 const userdata=JSON.parse(sessionStorage.getItem("userdata"))
 const questionsouter =[[{_id:"1",title:"Count Digits",qlink:"https://www.codingninjas.com/studio/problems/count-digits_8416387?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf",sollink:"",difficulty:"easy",description:"we should count the no of digits basic problem",},
 {_id:"2",title:"Reverse A Number",qlink:"https://www.codingninjas.com/studio/problems/reverse-bits_2181102?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf",sollink:"",difficulty:"easy",description:"we should reverse the no of digits ",},
 {_id:"3",title:"Check Palindrome",qlink:"https://www.codingninjas.com/studio/problems/palindrome-number_624662?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf",sollink:"",difficulty:"easy",description:"check whether the given input is palindrome or not",}
 ]]
 
-const result=questionsouter.map((item)=>{i=i+1;return `<h3>${arr[i]}</h3><div class="container1">`+ item.map((item)=>{
+const result=questionsouter.map((item)=>{i=i+1;return `<h3 class="text-center">${arr[i]}</h3><div class="container1">`+ item.map((item)=>{
     let s=`<div id=${item._id+"m"} class="markbtn btn but-outline-success  ">Mark as solved</div>`
 
     if (userdata.status.solved.includes(item._id)){
@@ -67,5 +67,6 @@ function dismissAlert() {
   
 }
 console.log(userdata.status)
+console.log(sessionStorage.getItem("userdata"))
 
 

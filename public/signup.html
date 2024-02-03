@@ -13,12 +13,13 @@
   </style>
 </head>
 <body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-6 col-md-8 col-sm-10">
         <div class="border rounded p-4">
           <h2 class="text-center mb-4">Sign Up</h2>
-          <form>
+          <form id="signupForm">
             <div class="form-group">
               <label for="rollNumber">Roll Number</label>
               <input type="text" class="form-control" id="rollNumber" placeholder="Enter roll number">
@@ -44,7 +45,59 @@
       </div>
     </div>
   </div>
+
+  <!-- JavaScript -->
+  <script>
+    console.log("executed")
+    document.getElementById("signupForm").addEventListener("submit", async function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Here you can add your custom form submission logic
+      // For example, you can collect form data and send it to a server using AJAX
+
+      // Example:
+      let rollNumber = document.getElementById("rollNumber").value;
+      let name = document.getElementById("name").value;
+      let password = document.getElementById("password").value;
+      let confirmPassword = document.getElementById("confirmPassword").value;
+
+      // You can perform validation checks here before submitting the form
+      
+      // Example: Check if passwords match
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return; // Stop form submission
+      }else{
+        
+        const response = await axios.post("http://localhost:5000/signup",{rollnum:rollNumber,password:password,status:{solved:[]}})
+        console.log("middle submit")
+        if (response.data.acknowledged){
+          sessionStorage.setItem("userdata",JSON.stringify(response.data))
+          sessionStorage.setItem("isLogin",true)
+          alert("logged in")
+          window.location.href="/index.html"
+        }else{
+          console.log(response.data)
+          alert(response.data.description)
+        }
+      }
+
+      // If validation passes, you can proceed with form submission
+      // Example: Submit the form data using AJAX
+      // Note: This is just an example. You should replace this with your actual form submission logic.
+      // You can use libraries like Axios or fetch API for AJAX requests.
+
+      // Dummy AJAX request for demonstration
+      // Replace this with your actual AJAX code to submit form data to the server
+      setTimeout(function() {
+        alert("Form submitted successfully");
+        // Reset the form after successful submission if needed
+        document.getElementById("signupForm").reset();
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
+
 
 

@@ -9,7 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="index.css" rel="stylesheet"/>
-    
+    <script>
+      //sessionStorage.setItem("isLogin",false)
+      console.log(sessionStorage.getItem("userdata"))
+      if (sessionStorage.getItem("isLogin")=="false"){
+        window.location.href="/signin.html"
+      }
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -32,25 +38,10 @@
             
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item me-2">
-              <button id="all" class="navbtn btn btn-outline-dark nav-link bg-white">All</button>
-            </li>
-            <li class="nav-item me-2">
-              <button id="starters" class="navbtn btn btn-outline-dark nav-link bg-white">Starters</button>
-            </li>
-            <li class="nav-item me-2">
-              <button id="mains" class="navbtn btn btn-outline-dark nav-link bg-white">Mains</button>
-            </li>
-            <li class="nav-item me-2">
-              <button id="desserts" class="navbtn btn btn-outline-dark nav-link bg-white">Desserts</button>
-            </li>
-            <li class="nav-item me-2">
               <button id="beverages" class="navbtn btn btn-outline-dark nav-link bg-white">Beverages</button>
             </li>
-            
-              <li class="nav-item me-2"><a id="about" class="navbtn btn btn-outline-dark nav-link bg-white">About us</a></li>
-            
-            
-              <li class="nav-item me-2"><a id="contact" class="navbtn btn btn-outline-dark nav-link bg-white">Contact us</a></li>
+            <li class="nav-item me-2"><a id="about" class="navbtn btn btn-outline-dark nav-link bg-white">About us</a></li>
+            <li class="nav-item me-2"><a id="contact" class="navbtn btn btn-outline-dark nav-link bg-white">Contact us</a></li>
             
           </ul>
           
@@ -59,7 +50,7 @@
       </div>
     </nav>
     <div id="containermain">
-    <h3 id="heading1" class=" text-center">Genral Problems</h3>
+    <h3 id="heading1" >Genral Problems</h3>
     <div id="container1" class=""></div>
     </div>
 

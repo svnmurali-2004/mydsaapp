@@ -19,7 +19,7 @@
       <div class="col-lg-6 col-md-8 col-sm-10 ">
         <div class="border rounded p-4">
           <h2 class="text-center mb-4">Sign In</h2>
-          <form>
+          <form id="signInForm">
             <div class="form-group">
               <label for="rollNumber">Roll Number</label>
               <input type="text" class="form-control" id="rollNumber" placeholder="Enter roll number">
@@ -39,7 +39,38 @@
   </div>
 </div>
   
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  document.getElementById("signInForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Get form data
+    let rollNumber = document.getElementById("rollNumber").value;
+    let password = document.getElementById("password").value;
+
+    // Perform any necessary validation
+
+    // Submit form data using Axios
+    console.log("middle form",{ rollNumber: rollNumber, password: password })
+    axios.post("http://localhost:5000/signin", { rollnumber: rollNumber, password: password })
+      .then(function(response) {
+        
+        console.log(response.data);
+        sessionStorage.setItem("userdata",JSON.stringify(response.data))
+        sessionStorage.setItem("isLogin",true)
+        window.location.href="/index.html"
+        // Redirect to dashboard or perform any other action
+      })
+      .catch(function(error) {
+        // Handle error
+        console.error(error);
+        alert("Sign in failed. Please check your credentials and try again.");
+      });
+  });
+</script>
 </body>
 </html>
+
 
 

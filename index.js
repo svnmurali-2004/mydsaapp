@@ -17,18 +17,19 @@ app.post("/signup",async(req,res)=>{
         const data=req.body
         const accounts =await cluster.db("mydsaapp").collection("testaccounts")
         const res1=await accounts.findOne({rollnum:data.rollnum})
-        const inserteddtata=await accounts.findOne({rollnum:data.rollnum})
+        //const inserteddtata=await accounts.findOne({rollnum:data.rollnum})
         if (res1==null){
             const res2=await accounts.insertOne(data)
             console.log(res2)
-            res.send(res1)
+            res.send(res2)
         }
         else{
-            res.send({acknowledged:false})
+            res.send({acknowledged:false,description:"user aldready exists"})
         }
-    }finally{
+    } 
+    catch(err){ res.send({"acknowledged":"error in the server computation"})}finally{
         console.log("signup executed")
-        res.send({"acknowledged":"error in the server computation"})
+       
     }
 })
 
@@ -37,14 +38,16 @@ app.post("/signup",async(req,res)=>{
 app.post("/signin",async(req,res)=>{
     try{
         const data=req.body
+        console.log(data)
         const accounts =await cluster.db("mydsaapp").collection("testaccounts")
         const res1=await accounts.findOne({rollnum:data.rollnum})
+        console.log(res1)
         if (res1==null){
             res.send({acknowledged:false,description:"credentials mismatch or user doesn't exist"})
         }else{
             res.send({...res1,acknowledged:true})
         }
     }finally{
-        console.log("signin executed")
+        console.log("signin executed");
     }
 })
