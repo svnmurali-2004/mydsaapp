@@ -42,7 +42,7 @@
         color:white;
 
     }
-    #container1{
+    .container1{
         display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
