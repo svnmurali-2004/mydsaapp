@@ -11,9 +11,7 @@ app.listen(5000,()=>{console.log("app listen ing")
 
 })
 const path = require('path');
-app.get("/",async(req,res)=>{
-    res.send(index)
-})
+app.use(express.static('public'))
 app.post("/signup",async(req,res)=>{
     try{
         const data=req.body
