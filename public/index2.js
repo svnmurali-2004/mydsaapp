@@ -1,5 +1,5 @@
 let i=-1;
-arr=["General Topics"]
+arr=["General Topics","Sorting","Arrays","Strings"]
 sessionStorage.setItem("userdata",JSON.stringify({_id:"123",name:"murali",rollnum:"160122737060",password:"admin",status:{solved:["2"],score:0}}))
 const userdata=JSON.parse(sessionStorage.getItem("userdata"))
 const questionsouter =[[{_id:"1",title:"Count Digits",qlink:"https://www.codingninjas.com/studio/problems/count-digits_8416387?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf",sollink:"",difficulty:"easy",description:"we should count the no of digits basic problem",},
