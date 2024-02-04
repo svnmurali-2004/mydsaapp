@@ -52,7 +52,7 @@ const totalquestions=()=>{i=0;
         questionsouter.map((item)=>{i=i+item.length});return i}
 
 
-const result=questionsouter.map((item)=>{i=i+1;return `<div class="border border-primary cream-background container"><h3 class="text-center">${arr[i]}</h3><div class="container1">`+ item.map((item)=>{
+const result=questionsouter.map((item)=>{i=i+1;return `<div class="p-3 border border-primary cream-background container"><h3 class="text-center">${arr[i]}</h3><div class="container1">`+ item.map((item)=>{
     let s=`<div id=${item._id+"m"} class="markbtn btn but-outline-success  ">Mark as solved</div>`
     let p="unsolved-filter"
 
