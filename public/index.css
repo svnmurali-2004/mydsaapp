@@ -67,7 +67,7 @@
     0% { color: rgb(224, 8, 252); }
     25% { color: blue; }
     50% { color: rgb(102, 255, 176); }
-    75% { color: rgb(242, 255, 0); }
+    75% { color: rgb(255, 0, 0); }
     100% { color: rgb(12, 210, 255); }
 }
 
@@ -94,3 +94,53 @@
   .out-coding-ninjas{
     display: inline-flex;
   }
+  .progress-bar {
+    background-image: linear-gradient(to right, #FFC300, #FF5733); /* Gradient background */
+    color: #fff; /* Text color */
+  }
+  #mainstatusheader {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Choose your desired text color */
+    text-align: center;
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+
+@keyframes borderColorChange {
+    0% {
+        background-image: linear-gradient(to right, blue, green); /* Starting gradient */
+    }
+    25% {
+        background-image: linear-gradient(to right, green, yellow); /* Intermediate gradient */
+    }
+    50% {
+        background-image: linear-gradient(to right, yellow, orange); /* Intermediate gradient */
+    }
+    75% {
+        background-image: linear-gradient(to right, orange, red); /* Intermediate gradient */
+    }
+    100% {
+        background-image: linear-gradient(to right, red, purple); /* Ending gradient */
+    }
+}
+
+/* Apply animation to the element */
+.subcontainer {
+    animation: borderColorChange 5s infinite; /* 5s duration, infinitely looping */
+    border: 2px solid transparent; /* Set a transparent border */
+    background-clip: padding-box; /* Clip the background to the padding box */
+}
+.cream-background{
+    background-color: bisque;
+}
+.menu-card{
+    height:100%
+}
+/*
+.solved-filter{
+
+}
+.unsolved-filter{
+
+}*/

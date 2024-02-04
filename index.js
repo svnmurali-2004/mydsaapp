@@ -7,7 +7,9 @@ const {MongoClient}=require ("mongodb")
 const uri=require("./uri.js")
 const cluster=new MongoClient(uri)
 cluster.connect().then(console.log("connected"));
-app.listen(5000,()=>{console.log("app listen ing")
+const hostname = process.env.HOST || 'localhost';
+const port = process.env.PORT || 5000;
+app.listen(port,()=>{console.log("app listen ing")
 
 })
 const path = require('path');
@@ -58,4 +60,13 @@ app.post("/signin",async(req,res)=>{
     }finally{
         console.log("signin executed");
     }
+})
+
+//leaderboard method
+app.get("/leaderboard",async(req,res)=>{
+    const accounts=cluster.db("mydsaapp").collection("testaccounts")
+    const result = await accounts.find({}, { projection: { name: 1,"status.score":1 ,_id:0 } }).sort({ "status.score": -1 }).toArray();
+        
+    console.log(result)
+    res.send(result)
 })

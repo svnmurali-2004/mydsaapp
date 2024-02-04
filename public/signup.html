@@ -69,7 +69,7 @@
         return; // Stop form submission
       }else{
         
-        const response = await axios.post("http://localhost:5000/signup",{rollnum:rollNumber,password:password,status:{solved:[]}})
+        const response = await axios.post("http://localhost:5000/signup",{rollnum:rollNumber,password:password,status:{solved:[],score:0}})
         console.log("middle submit")
         if (response.data.acknowledged){
           sessionStorage.setItem("userdata",JSON.stringify(response.data))

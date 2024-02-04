@@ -4,14 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leaderboard</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    
+    .container {
+      background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for container */
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 50px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Box shadow for container */
+    }
+    h1 {
+      color: #333; /* Heading color */
+    }
+    body {
+    text-size-adjust: 100%;
+     }
+     
+    .spinner-container {
+      position:static;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      z-index: 1;
+    }
+  
+  </style>
 </head>
-<body>
 
+<body>
+  <div class="spinner-container">
+    <!-- Custom Loading GIF -->
+    <img src="loading.jpg" alt="Loading..." width="100" height="100">
+  </div>
+  <div class="alert alert-warning alert-dismissible fade show " role="alert" id="myAlert">
+    <strong id="myalerttext">top participants will be awarded with special awards</strong>
+   <button type="button" class="btn-close" aria-label="Close" onclick="dismissAlert()"></button>
+ </div>
 <div class="container">
   <h1 class="text-center mt-5 mb-4">Leaderboard</h1>
   
-  <table class="table table-striped">
+  <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -19,33 +54,49 @@
         <th scope="col">Score</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>John</td>
-        <td>100</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jane</td>
-        <td>90</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Mike</td>
-        <td>85</td>
-      </tr>
-      <!-- Add more rows as needed -->
+    <tbody id="tbody">
+      <!-- Leaderboard data will be populated here -->
     </tbody>
   </table>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Axios library for making HTTP requests -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+<script>
+  // Fetch leaderboard data using Axios
+  document.getElementsByClassName('spinner-container')[0].classList.remove("d-none")
+  axios.get("/leaderboard")
+    .then(response => {
+      let i = 0;
+      const leaderboardData = response.data.map(item => {
+        i++;
+        return `<tr>
+          <th scope="row">${i}</th>
+          <td>${item.name}</td>
+          <td>${item.status.score}</td>
+        </tr>`;
+      });
+      
+      // Populate the leaderboard table with fetched data
+      document.getElementById("tbody").innerHTML = leaderboardData.join(" ");
+    })
+    .catch(error => {
+      console.error("Error fetching leaderboard data:", error);
+    });
+    document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
+    function dismissAlert() {
+    document.getElementById("myAlert").classList.add("d-none")
+  
+}
+</script>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
 
 
 
