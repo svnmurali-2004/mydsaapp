@@ -53,7 +53,7 @@
 
     // Submit form data using Axios
     console.log("middle form",{ rollNumber: rollNumber, password: password })
-    axios.post("http://localhost:5000/signin", { rollnum: rollNumber.toString(), password: password })
+    axios.post("/signin", { rollnum: rollNumber.toString(), password: password })
       .then(function(response) {
         if (response.data.acknowledged==true){
         console.log(response.data);
