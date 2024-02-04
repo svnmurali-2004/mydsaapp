@@ -12,7 +12,7 @@
     <script>
       //sessionStorage.setItem("isLogin",false)
       console.log(sessionStorage.getItem("userdata"))
-      if (sessionStorage.getItem("isLogin")=="false"){
+      if (!sessionStorage.getItem("isLogin")=="true"){
         window.location.href="/signin.html"
       }
     </script>
