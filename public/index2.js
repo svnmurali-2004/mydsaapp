@@ -179,6 +179,8 @@ function unsolvedfilter(){
     console.log("solved filter executed")
 }
 //solvedfilter()
+console.log("script end 2")
 function signout(){
-    sessionStorage.setItem("isLogin",false)
+    sessionStorage.setItem("isLogin","false");
+    window.location.href="/signin.html"
 }
