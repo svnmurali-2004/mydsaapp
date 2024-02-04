@@ -30,7 +30,7 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             <div class="text-center mt-3">
-              <small>Don't have an account? <a href="index.html">Sign up</a></small>
+              <small>Don't have an account? <a href="signup.html">Sign up</a></small>
             </div>
           </form>
         </div>
@@ -53,13 +53,15 @@
 
     // Submit form data using Axios
     console.log("middle form",{ rollNumber: rollNumber, password: password })
-    axios.post("http://localhost:5000/signin", { rollnumber: rollNumber, password: password })
+    axios.post("http://localhost:5000/signin", { rollnum: rollNumber.toString(), password: password })
       .then(function(response) {
-        
+        if (response.data.acknowledged==true){
         console.log(response.data);
         sessionStorage.setItem("userdata",JSON.stringify(response.data))
         sessionStorage.setItem("isLogin",true)
-        window.location.href="/index.html"
+        window.location.href="/index.html"}else{
+          alert(response.data.description)
+        }
         // Redirect to dashboard or perform any other action
       })
       .catch(function(error) {

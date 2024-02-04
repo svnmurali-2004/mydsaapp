@@ -11,6 +11,7 @@ app.listen(5000,()=>{console.log("app listen ing")
 
 })
 const path = require('path');
+const { error } = require("console");
 app.use(express.static('public'))
 app.post("/signup",async(req,res)=>{
     try{
@@ -39,13 +40,20 @@ app.post("/signin",async(req,res)=>{
     try{
         const data=req.body
         console.log(data)
-        const accounts =await cluster.db("mydsaapp").collection("testaccounts")
-        const res1=await accounts.findOne({rollnum:data.rollnum})
-        console.log(res1)
+        const accounts = cluster.db("mydsaapp").collection("testaccounts")
+        const res1=await accounts.findOne({rollnum:data.rollnum}).catch(error=>{
+            console.error(error)
+        })
+        
+        
         if (res1==null){
-            res.send({acknowledged:false,description:"credentials mismatch or user doesn't exist"})
+            res.send({acknowledged:false,description:"unvalid user or user doesnt exist"})
         }else{
-            res.send({...res1,acknowledged:true})
+            if(data.password==res1.password){
+                console.log(res1)
+            res.send({...res1,acknowledged:true})}else{
+                res.send({acknowledged:false,description:"invalid password"})
+            }
         }
     }finally{
         console.log("signin executed");
