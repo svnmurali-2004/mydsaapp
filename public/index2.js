@@ -3,7 +3,7 @@ let arr
 arr=["General Topics","Sorting","Arrays","Strings"]
 //sessionStorage.setItem("userdata",JSON.stringify({_id:"123",name:"murali",rollnum:"160122737060",password:"admin",status:{solved:["2"],score:0}}))
 const userdata=JSON.parse(sessionStorage.getItem("userdata"))
-
+console.log(userdata)
 
 
 let i=-1;

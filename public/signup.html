@@ -26,7 +26,11 @@
             </div>
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter name">
+              <input type="text" class="form-control" id="name" placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" id="email" placeholder="Enter Email">
             </div>
             <div class="form-group">
               <label for="password">Password</label>
@@ -60,6 +64,7 @@
       let name = document.getElementById("name").value;
       let password = document.getElementById("password").value;
       let confirmPassword = document.getElementById("confirmPassword").value;
+      let email=document.getElementById("email").value;
 
       // You can perform validation checks here before submitting the form
       
@@ -69,14 +74,14 @@
         return; // Stop form submission
       }else{
         
-        const response = await axios.post("/signup",{name:name,rollnum:rollNumber,password:password,status:{solved:[],score:0}})
+        const response = await axios.post("/signup",{name:name,rollnum:rollNumber,email:email,password:password,status:{solved:[],score:0}})
         console.log("middle submit")
-        if (response.data.acknowledged){
+        if (response.data.acknowledged==true){
           sessionStorage.setItem("userdata",JSON.stringify(response.data))
           sessionStorage.setItem("isLogin",true)
           alert("logged in")
           window.location.href="/index.html"
-        }else{
+        }else if(response.data.acknowledged==false){
           console.log(response.data)
           alert(response.data.description)
         }

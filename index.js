@@ -15,6 +15,13 @@ app.listen(port,()=>{console.log("app listen ing")
 const path = require('path');
 const { error } = require("console");
 app.use(express.static('public'))
+const nodemailer=require('nodemailer')//importing node mailer
+const transporter=nodemailer.createTransport({
+    service:"gmail",
+    auth:{user:'codebox012@gmail.com',pass:"posd jyxt spcv yqtr"
+
+    }
+})
 app.post("/signup",async(req,res)=>{
     try{
         const data=req.body
@@ -24,13 +31,13 @@ app.post("/signup",async(req,res)=>{
         if (res1==null){
             const res2=await accounts.insertOne(data)
             console.log(res2)
-            res.send(res2)
+            res.send({...res1,acknowledged:true})
         }
         else{
             res.send({acknowledged:false,description:"user aldready exists"})
         }
     } 
-    catch(err){ res.send({"acknowledged":"error in the server computation"})}finally{
+    catch(err){ res.send({acknowledged:false,description:"error in the server computation"})}finally{
         console.log("signup executed")
        
     }
@@ -94,4 +101,52 @@ app.post("/userupdate",async(req,res)=>{
         console.log("userupdate executed successfully")
     }
 
+})
+
+
+app.post("/reset/password",async(req,res)=>{
+    let otpcluster=cluster.db("mydsaapp").collection("otps")
+   let otphandler=( await otpcluster.findOne({"role":"reset"})).otphandler
+    console.log(otphandler)
+    let data=req.body;
+    const accounts=await cluster.db("mydsaapp").collection("testaccounts")
+    let respo=await accounts.findOne({rollnum:data.rollnum})
+    console.log(respo)
+    if (respo==null){
+        res.send({acknowledged:false,description:"account not exist"})
+    }else{
+    let otp=Math.ceil(Math.random()*1000)
+    otphandler[data.rollnum]=otp
+    await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
+    const mailoptions={
+        from:"codebox012@gmail.com",
+        to:respo.email,
+        subject:'password reset',
+        text:"the otp for the password reset is "+otp
+    }
+    await transporter.sendMail(mailoptions,(err,info)=>{
+        if (err){
+            console.error(err)
+            res.send({acknowledged:false,description:"mail server down"})
+        }else{
+            console.log(info)
+            res.send({acknowledged:true,description:"success"})
+        }
+    })
+}
+}
+);
+
+app.post("/reset/verify",async(req,res)=>{
+    let data=req.body
+    let otpcluster=cluster.db("mydsaapp").collection("otps")
+   let otphandler=( await otpcluster.findOne({"role":"reset"})).otphandler
+    if (data.otp==otphandler[data.rollnum]){
+        delete otphandler[data.rollnum]
+        await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
+        res.send({acknowledged:true})
+
+    }else{
+        res.send({acknowledged:false})
+    }
 })
