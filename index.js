@@ -41,12 +41,12 @@ app.post("/signup",async(req,res)=>{
 app.post("/signin",async(req,res)=>{
     try{
         const data=req.body
-        console.log(data)
+        console.log(data,"data from client")
         const accounts = cluster.db("mydsaapp").collection("testaccounts")
         const res1=await accounts.findOne({rollnum:data.rollnum}).catch(error=>{
             console.error(error)
         })
-        
+        console.log("response",res1)
         
         if (res1==null){
             res.send({acknowledged:false,description:"unvalid user or user doesnt exist"})
@@ -69,4 +69,25 @@ app.get("/leaderboard",async(req,res)=>{
         
     console.log(result)
     res.send(result)
+})
+
+app.get("/questions",async(req,res)=>{
+    const questions=cluster.db("mydsaapp").collection("questions")
+    const response= await questions.find({}).toArray()
+    res.send(response[0])
+    console.log(response)
+})
+//user update
+app.post("/userupdate",async(req,res)=>{
+    const accounts=cluster.db("mydsaapp").collection("testaccounts")
+    const data=req.body
+    try{
+    let response=await accounts.updateOne({rollnum:data.rollnum},{$set:data})
+    console.log(response);
+    res.send(response)}catch(error){
+        res.send({acknowledged:false})
+    }finally{
+        console.log("userupdate executed successfully")
+    }
+
 })
