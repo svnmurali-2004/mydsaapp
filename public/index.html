@@ -19,10 +19,12 @@
         window.location.href="/signin.html"
       }
       let questionsouter;
+      let section
       async function fetchData() {
         try {
           const response = await axios.get("/questions");
           questionsouter = response.data.questions;
+          sections=response.data.sections
           console.log("success");
           console.log(questionsouter);
           // Call functions that depend on questionsouter here

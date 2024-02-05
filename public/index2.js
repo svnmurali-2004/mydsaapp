@@ -1,7 +1,7 @@
 
 let arr
 arr=["General Topics","Sorting","Arrays","Strings"]
-sessionStorage.setItem("userdata",JSON.stringify({_id:"123",name:"murali",rollnum:"160122737060",password:"admin",status:{solved:["2"],score:0}}))
+//sessionStorage.setItem("userdata",JSON.stringify({_id:"123",name:"murali",rollnum:"160122737060",password:"admin",status:{solved:["2"],score:0}}))
 const userdata=JSON.parse(sessionStorage.getItem("userdata"))
 
 
@@ -14,7 +14,9 @@ const totalquestions=()=>{i=0;
         questionsouter.map((item)=>{i=i+item.length});return i}
 
 
-const result=questionsouter.map((item)=>{i=i+1;return `<div class="p-3 border border-primary cream-background container"><h3 class="text-center">${arr[i]}</h3><div class="container1">`+ item.map((item)=>{
+const result=questionsouter.map((item)=>{i=i+1;return `<div class="p-3 border border-primary cream-background container"><h3 class="text-center">${arr[i]}</h3><div class="progress">
+<div id=${"substatus"+i} class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div><div class="container1">`+ item.map((item)=>{
     let s=`<div id=${item._id+"m"} class="markbtn btn but-outline-success  ">Mark as solved</div>`
     let p="unsolved-filter"
 
@@ -71,13 +73,24 @@ const mark=(item)=>{
         userdata.status.score=parseInt(userdata.status.score)+50
     }
     sessionStorage.setItem("userdata",JSON.stringify(userdata))
-    console.log(userdata.status)
+    console.log(userdata.status,"from the mark function")
     document.getElementById("myalerttext").innerHTML="marked as solved keep solving"
     document.getElementById("myAlert").classList.add("fixed-top")
     document.getElementById("myAlert").classList.remove("d-none")
     mainstatus()
     document.getElementById(item+"c").classList.remove("unsolved-filter")
     document.getElementById(item+"c").classList.add("solved-filter")
+    let tempi=0
+   for(const element of sections){
+
+    if (element.includes(item)){
+        console.log("sections update executed")
+        userdata.status.sections[tempi].push(item);
+        break;
+    }
+   }
+    subprogressbar()
+    updateuser()
     console.log("marking executed successfully")
 }
 
@@ -102,9 +115,10 @@ document.getElementById("mainstatus").innerHTML=(Math.ceil(((userdata.status.sol
 document.getElementById("mainstatus").style.width=(Math.ceil(((userdata.status.solved.length)/totalquestion)*100)).toString()+"%"}
 mainstatus()
 console.log("mainstatus executing")
-document.getElementById("signout").addEventListener('click',function (){
-    sessionStorage.setItem("isLogin",false)
-})
+
+//document.getElementById("signout").addEventListener('click',function (){
+ //   sessionStorage.setItem("isLogin",false)
+//})
 
 
 //to handle the solved criteria
@@ -143,10 +157,35 @@ function unsolvedfilter(){
 //solvedfilter()
 console.log("script end 2")
 function signout(){
+    sessionStorage.setItem("userdata",null);
     sessionStorage.setItem("isLogin","false");
     window.location.href="/signin.html"
 }
 function leaderboard(){
     window.location.href="/leaderboard.html"
 }
+//sub progress bar
+const subprogressbar=()=>{
+    let tempid=0
+    sections.map((item)=>{
+        let percent=(userdata.status.sections[tempid].length/item.length)*100
+        document.getElementById("substatus"+tempid).style.width=Math.ceil(percent)+"%"
+        document.getElementById("substatus"+tempid).innerHTML=Math.ceil(percent)+"%"
+        tempid=tempid+1
+        console.log('subprogress executed')
+    })
+}
+subprogressbar()//updating sub progress bars
 console.log(questionsouter)
+
+//userupdate function to update users
+const updateuser=async()=>{
+    const response=await axios.post("/userupdate",userdata);
+    console.log(response.data,"from updateuser")
+    if (response.data.acknowledged==false){
+        alert("mydsa app crashed please contact owner")
+    }else if(response.data.acknowledged==true){
+        console.log(response.data)
+        console.log("userupdate successfull")
+    }
+}

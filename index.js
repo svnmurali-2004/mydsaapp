@@ -41,6 +41,7 @@ app.post("/signup",async(req,res)=>{
 app.post("/signin",async(req,res)=>{
     try{
         const data=req.body
+
         console.log(data,"data from client")
         const accounts = cluster.db("mydsaapp").collection("testaccounts")
         const res1=await accounts.findOne({rollnum:data.rollnum}).catch(error=>{
@@ -81,10 +82,13 @@ app.get("/questions",async(req,res)=>{
 app.post("/userupdate",async(req,res)=>{
     const accounts=cluster.db("mydsaapp").collection("testaccounts")
     const data=req.body
+    delete data.acknowledged
+    delete data._id
     try{
     let response=await accounts.updateOne({rollnum:data.rollnum},{$set:data})
     console.log(response);
     res.send(response)}catch(error){
+        console.log(error)
         res.send({acknowledged:false})
     }finally{
         console.log("userupdate executed successfully")

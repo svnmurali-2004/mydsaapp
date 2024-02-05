@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Custom styles for About Us page */
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .about-section {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .about-heading {
+            color: #007bff;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .about-content {
+            font-size: 1.2rem;
+        }
+        .home-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .home-btn:hover {
+            background-color: #0056b3;
+        }
+        /* Center text horizontally */
+        .center {
+            text-align: center;
+        }
+        @keyframes colorChange {
+    0% { color: rgb(225, 0, 255); }
+    25% { color: blue; }
+    50% { color: rgb(0, 249, 120); }
+    75% { color: rgb(255, 0, 0); }
+    100% { color: rgb(0, 208, 255); }
+}
+
+.text {
+    animation: colorChange 5s infinite;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Centered text -->
+    <div class="container center">
+        <h1 class="text">MyDsaApp</h1>
+    </div>
+
+    <!-- About Us Section -->
+    <div class="container mt-5">
+        <div class="about-section">
+            <h2 class="about-heading">About Us</h2>
+            <p class="about-content">We are a dedicated team passionate about data structures and algorithms. Our mission is to provide a comprehensive platform for learning and practicing coding challenges to help developers enhance their problem-solving skills.</p>
+            <p class="about-content">With a focus on simplicity and user experience, we aim to create an engaging environment where individuals can improve their coding abilities and prepare for technical interviews.</p>
+        </div>
+    </div>
+
+    <!-- Home Button -->
+    <div class="container text-center">
+        <a href="/" class="home-btn">Home</a>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
