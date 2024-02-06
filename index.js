@@ -177,8 +177,43 @@ app.post("/userupdate",async(req,res)=>{
 
 })
 
-
+let htmlOtpTemplate=(otp)=>{return(`<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reset Password OTP</title>
+    </head>
+    
+    <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
+    
+        <div style="max-width: 600px; margin: 0 auto; background-color: #fff; border-collapse: collapse; border-radius: 8px; overflow: hidden; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); padding: 20px;">
+    
+            <h2 style="color: #333; text-align: center;">Reset Password OTP</h2>
+    
+            <p style="color: #666; text-align: center;">Use the following One-Time Password (OTP) to reset your password:</p>
+    
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h1 style="color: #007bff; font-size: 48px; margin: 0;">${otp}</h1>
+            </div>
+    
+            <p style="color: #666; text-align: center;">This OTP is valid for a single use and will expire after a short period of time.</p>
+    
+            <p style="color: #666; text-align: center;">If you didn't request this password reset, you can ignore this email.</p>
+    
+            <p style="color: #666; text-align: center;">Thank you,</p>
+            <p style="color: #666; text-align: center;">The MyDSAApp Team</p>
+    
+        </div>
+    
+    </body>
+    
+    </html>
+    `)}
 app.post("/reset/password",async(req,res)=>{
+    try{
     let otpcluster=cluster.db("mydsaapp").collection("otps")
    let otphandler=( await otpcluster.findOne({"role":"reset"})).otphandler
     console.log(otphandler)
@@ -196,7 +231,7 @@ app.post("/reset/password",async(req,res)=>{
         from:"codebox012@gmail.com",
         to:respo.email,
         subject:'password reset',
-        text:"the otp for the password reset is "+otp
+        html:htmlOtpTemplate(otp)
     }
     await transporter.sendMail(mailoptions,(err,info)=>{
         if (err){
@@ -208,10 +243,14 @@ app.post("/reset/password",async(req,res)=>{
         }
     })
 }
+}catch(err){
+console.log("error in the reset password at line 213")
+}
 }
 );
 
 app.post("/reset/verify",async(req,res)=>{
+    try{
     let data=req.body
     let otpcluster=cluster.db("mydsaapp").collection("otps")
    let otphandler=( await otpcluster.findOne({"role":"reset"})).otphandler
@@ -224,26 +263,78 @@ app.post("/reset/verify",async(req,res)=>{
 
     }else{
         res.send({acknowledged:false})
+    }}catch(err){
+        console.log("error in mail verify at line 229")
+        res.send({acknowledged:false})
     }
 })
 console.log(hostname)
+let htmlCongratulationsTemplate=(Name)=>{return (`<!DOCTYPE html>
+<html lang="en">
 
-//email verification durung signup
-app.get("/mailverify/:id",async(req,res)=>{
-let data=req.params.id 
-let mailverify=cluster.db("mydsaapp").collection("mailverify").then(
-console.log("mailverify databasse connected"))
-const response=await mailverify.findOne({_id:ObjectId(data)})
-if (response==null){
-    res.sendFile(path.join(__dirname, 'failure.html'))
-}else{
-    const accounts =await cluster.db("mydsaapp").collection("testaccounts")
-    const res2=await accounts.insertOne(JSON.parse(response.account))
-    console.log(res2)
-    await mailverify.deleteOne({_id:data})
-    res.sendFile(path.join(__dirname,"success.html"))
-}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations on Creating Your Account!</title>
+</head>
 
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px;">
 
+    <div style="max-width: 600px; margin: 0 auto; background-color: #fff; border-collapse: collapse; border-radius: 8px; overflow: hidden; box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); padding: 20px;">
 
-})
+        <h2 style="color: #333; text-align: center;">Congratulations on Creating Your Account!</h2>
+
+        <p style="color: #666; text-align: center;">Dear ${Name},</p>
+
+        <p style="color: #666; text-align: center;">Congratulations! You have successfully created an account on MyDSAApp.</p>
+
+        <p style="color: #666; text-align: center;">You can now enjoy all the features and benefits our platform has to offer.</p>
+
+        <p style="color: #666; text-align: center;">Thank you for joining us!</p>
+
+        <p style="color: #666; text-align: center;">Best Regards,<br>The MyDSAApp Team</p>
+
+    </div>
+
+</body>
+
+</html>`)}
+
+app.get("/mailverify/:id", async (req, res) => {
+    try {
+        const data = req.params.id;
+        const mailverify = await cluster.db("mydsaapp").collection("mailverify");
+        console.log("Mailverify database connected");
+        
+        const response = await mailverify.findOne({ _id: new ObjectId(data) });
+        
+        if (!response) {
+            return res.sendFile(path.join(__dirname, 'failure.html'));
+        } else {
+            const accounts = await cluster.db("mydsaapp").collection("testaccounts");
+            const res2 = await accounts.insertOne(JSON.parse(response.account));
+            console.log(res2);
+            
+            await mailverify.deleteOne({ _id: new ObjectId(data) });
+            const user=JSON.parse(response.account)
+            const mailoptions={
+                from:"codebox012@gmail.com",
+                to:user.email,
+                subject:'Account Created',
+                html:htmlCongratulationsTemplate(user.name)
+            }
+            transporter.sendMail(mailoptions,(err,info)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(info)
+                }
+            })
+            return res.sendFile(path.join(__dirname, "success.html"));
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return res.status(500).send("Internal Server Error");
+    }
+});

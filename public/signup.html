@@ -77,12 +77,8 @@
         const response = await axios.post("/signup",{name:name,rollnum:rollNumber,email:email,password:password,status:{solved:[],score:0}})
         console.log("middle submit")
         if (response.data.acknowledged==true){
-          sessionStorage.setItem("userdata",JSON.stringify(response.data))
-          sessionStorage.setItem("isLogin",true)
-          alert("logged in")
-          window.location.href="/index.html"
+          alert("mail sent please verify your mail")
         }else if(response.data.acknowledged==false){
-          console.log(response.data)
           alert(response.data.description)
         }
       }
