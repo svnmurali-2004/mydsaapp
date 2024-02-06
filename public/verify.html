@@ -60,7 +60,14 @@
             const response=await axios.post("/reset/verify",data)
             if (response.data.acknowledged==true){
                 alert("password changed successfully")
-                window.href='/signup.html'
+                const currentDomain = window.location.origin;
+                    const relativeURL = "/signin.html";
+                    const absoluteURL = currentDomain + relativeURL;
+                const newTab = window.open(absoluteURL, "_blank");
+                // Close the current tab after a short delay (to ensure the new tab is opened)
+                setTimeout(() => {
+                 window.close();
+                    }, 1000);
             }else if (response.data.acknowledged==false){
                 alert("invalid otp or invalid session")
             }

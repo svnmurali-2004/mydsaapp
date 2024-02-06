@@ -143,6 +143,8 @@ app.post("/reset/verify",async(req,res)=>{
    let otphandler=( await otpcluster.findOne({"role":"reset"})).otphandler
     if (data.otp==otphandler[data.rollnum]){
         delete otphandler[data.rollnum]
+        const accounts=cluster.db("mydsaapp").collection("testaccounts")
+        await accounts.updateOne({rollnum:data.rollnum},{$set:{password:data.password}})
         await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
         res.send({acknowledged:true})
 

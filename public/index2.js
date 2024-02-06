@@ -81,6 +81,7 @@ const mark=(item)=>{
     document.getElementById(item+"c").classList.remove("unsolved-filter")
     document.getElementById(item+"c").classList.add("solved-filter")
     let tempi=0
+    console.log(sections," sections from mark")
    for(const element of sections){
 
     if (element.includes(item)){
@@ -88,6 +89,7 @@ const mark=(item)=>{
         userdata.status.sections[tempi].push(item);
         break;
     }
+    tempi=tempi+1
    }
     subprogressbar()
     updateuser()
@@ -167,13 +169,16 @@ function leaderboard(){
 //sub progress bar
 const subprogressbar=()=>{
     let tempid=0
+    console.log("subprogress executing")
     sections.map((item)=>{
+        console.log(item,userdata.status.sections[tempid])
         let percent=(userdata.status.sections[tempid].length/item.length)*100
         document.getElementById("substatus"+tempid).style.width=Math.ceil(percent)+"%"
         document.getElementById("substatus"+tempid).innerHTML=Math.ceil(percent)+"%"
         tempid=tempid+1
-        console.log('subprogress executed')
+        
     })
+    console.log('subprogress executed')
 }
 subprogressbar()//updating sub progress bars
 console.log(questionsouter)

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roll Number Form</title>
+<title>Password Reset</title>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Roll Number Form</h1>
+    <h1>Password Reset</h1>
     <form id="rollNumberForm">
         <div class="mb-3">
             <label for="rollNumberInput" class="form-label">Enter Roll Number:</label>
@@ -24,27 +24,46 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+<div id="loader" class="spinner-container d-none">
+    <!-- Custom Loading GIF -->
+    <img src="loading.jpg" alt="Loading..." width="100" height="100">
+</div>
 
 <!-- Bootstrap JS and jQuery (required for Bootstrap components) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<!-- Axios library for making HTTP requests -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
     // Submit handler for the form
     document.getElementById('rollNumberForm').addEventListener('submit', async function(event) {
         event.preventDefault(); // Prevent default form submission
-
         // Get the roll number input value
         const rollnum = document.getElementById('rollNumberInput').value;
 
         // Perform any further actions with the roll number, e.g., validation, submission to server, etc.
-        const reponse=await axios.post("/reset/password",{"rollnum":rollnum})
-        if (response.data.acknowledged==true){
-            sessionStorage.setItem("resetdata",Json.stringify({"rollum":rollnum}))
-            window.href="/verify.html"
+        document.getElementById("loader").classList.remove("d-none");
+        try {
+            const response = await axios.post("/reset/password", {"rollnum": rollnum});
+            document.getElementById("loader").classList.add("d-none");
+            if (response.data.acknowledged == true) {
+                sessionStorage.setItem("resetdata", JSON.stringify({"rollnum": rollnum}));
+                alert("OTP sent to your registered email");
+                window.location.href = "/verify.html";
+                
+            } else {
+                alert(response.data)
+                alert("Something went wrong. Please contact us through the contact page.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again later.");
+            document.getElementById("loader").classList.add("d-none");
         }
     });
 </script>
 </body>
 </html>
+
