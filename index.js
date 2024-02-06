@@ -22,6 +22,9 @@ const transporter=nodemailer.createTransport({
 
     }
 })
+app.get("/helloserver",async(req,res)=>{
+    res.send("helloserver")
+})
 app.post("/signup",async(req,res)=>{
     try{
         const data=req.body
