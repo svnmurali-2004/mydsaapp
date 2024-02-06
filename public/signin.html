@@ -15,66 +15,66 @@
 <body>
   <div class="container">
     <div class="col justify-content-center">
-    <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8 col-sm-10 ">
-        <div class="border rounded p-4">
-          <h2 class="text-center mb-4">Sign In</h2>
-          <small id="signInForm">
-            <div class="form-group">
-              <label for="rollNumber">Roll Number</label>
-              <input type="text" class="form-control" id="rollNumber" placeholder="Enter roll number">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10 ">
+          <div class="border rounded p-4">
+            <h2 class="text-center mb-4">Sign In</h2>
+            <form id="signInForm">
+              <div class="form-group">
+                <label for="rollNumber">Roll Number</label>
+                <input type="text" class="form-control" id="rollNumber" placeholder="Enter roll number">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password">
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+            <div class="text-center mt-1">
+              <small>
+                <a href="reset.html">Forgot password</a>
+              </small>
             </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter password">
-            </div>
-            <div class="text-center mt-1"><small>
-              <a href="reset.html">forgot password</a></div></small></div>
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             <div class="text-center mt-3">
               <small>Don't have an account? <a href="signup.html">Sign up</a></small>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
   
-<!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-  document.getElementById("signInForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent default form submission
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    document.getElementById("signInForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
 
-    // Get form data
-    let rollNumber = document.getElementById("rollNumber").value;
-    let password = document.getElementById("password").value;
+      // Get form data
+      let rollNumber = document.getElementById("rollNumber").value;
+      let password = document.getElementById("password").value;
 
-    // Perform any necessary validation
-
-    // Submit form data using Axios
-    console.log("middle form",{ rollNumber: rollNumber, password: password })
-    axios.post("/signin", { rollnum: rollNumber.toString(), password: password })
-      .then(function(response) {
-        if (response.data.acknowledged==true){
-        console.log(response.data);
-        sessionStorage.setItem("userdata",JSON.stringify(response.data))
-        sessionStorage.setItem("isLogin",true)
-        window.location.href="/index.html"}else{
-          alert(response.data.description)
-        }
-        // Redirect to dashboard or perform any other action
-      })
-      .catch(function(error) {
-        // Handle error
-        console.error(error);
-        alert("Sign in failed. Please check your credentials and try again.");
-      });
-  });
-</script>
+      // Submit form data using Axios
+      axios.post("/signin", { rollnum: rollNumber.toString(), password: password })
+        .then(function(response) {
+          if (response.data.acknowledged == true) {
+            sessionStorage.setItem("userdata", JSON.stringify(response.data));
+            sessionStorage.setItem("isLogin", true);
+            window.location.href = "/index.html";
+          } else {
+            alert(response.data.description);
+          }
+        })
+        .catch(function(error) {
+          // Handle error
+          console.error(error);
+          alert("Sign in failed. Please check your credentials and try again.");
+        });
+    });
+  </script>
 </body>
 </html>
+
 
 
 
