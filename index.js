@@ -3,13 +3,13 @@ const app= express();
 const cors=require("cors")
 app.use(cors())
 app.use(express.json())
-const {MongoClient}=require ("mongodb")
+const {MongoClient,ObjectId}=require ("mongodb")
 const uri=require("./uri.js")
 const cluster=new MongoClient(uri)
 cluster.connect().then(console.log("connected"));
 const hostname = process.env.HOST || 'localhost';
 const port = process.env.PORT || 5000;
-app.listen(port,()=>{console.log("app listen ing")
+app.listen(port,()=>{console.log("app listening")
 
 })
 const path = require('path');
@@ -22,9 +22,48 @@ const transporter=nodemailer.createTransport({
 
     }
 })
-app.get("/helloserver",async(req,res)=>{
+
+const htmlMailVerifyTemplate=(verificationLink)=>{return( `
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+</head>
+
+<body style="font-family: Arial, sans-serif;">
+
+    <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+        <tr>
+            <td style="background-color: #f7f7f7; padding: 20px;">
+                <h2 style="color: #333;">MyDSAApp - Email Verification</h2>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #fff; padding: 20px;">
+                <p style="color: #666;">Dear User,</p>
+                <p style="color: #666;">Welcome to MyDSAApp! Please verify your email address by clicking the link below:</p>
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="${verificationLink}" style="background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px;">Verify Email</a>
+                </p>
+                <p style="color: #666;">If you didn't request this verification, you can ignore this email.</p>
+                <p style="color: #666;">Thank you,</p>
+                <p style="color: #666;">The MyDSAApp Team</p>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+`)}
+app.get("/helloserver",async(req,res)=>{//dummy one
     res.send("helloserver")
 })
+/*
 app.post("/signup",async(req,res)=>{
     try{
         const data=req.body
@@ -44,8 +83,40 @@ app.post("/signup",async(req,res)=>{
         console.log("signup executed")
        
     }
+})*/
+app.post("/signup",async(req,res)=>{
+    try{
+        const data=req.body
+        const accounts = cluster.db("mydsaapp").collection("testaccounts")
+        let mailverify=cluster.db("mydsaapp").collection("mailverify")
+        const res1=await accounts.findOne({rollnum:data.rollnum})
+        //const inserteddtata=await accounts.findOne({rollnum:data.rollnum})
+        if (res1==null){
+            let response=await mailverify.insertOne({account:JSON.stringify(data)})
+            const verificationlink="http://"+hostname+"/mailverify/"+response.insertedId
+            await transporter.sendMail({
+                from:"codebox012@gmail.com",
+                to:data.email,
+                subject:'password reset',
+                html:htmlMailVerifyTemplate(verificationlink)
+            },(err,info)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log(info)
+                }
+            })
+            res.send({acknowledged:true})
+        }
+        else{
+            res.send({acknowledged:false,description:"user aldready exists"})
+        }
+    } 
+    catch(err){console.log(err); res.send({acknowledged:false,description:"error in the server computation"})}finally{
+        console.log("signup executed")
+       
+    }
 })
-
 
 //sign in method
 app.post("/signin",async(req,res)=>{
@@ -154,4 +225,25 @@ app.post("/reset/verify",async(req,res)=>{
     }else{
         res.send({acknowledged:false})
     }
+})
+console.log(hostname)
+
+//email verification durung signup
+app.get("/mailverify/:id",async(req,res)=>{
+let data=req.params.id 
+let mailverify=cluster.db("mydsaapp").collection("mailverify").then(
+console.log("mailverify databasse connected"))
+const response=await mailverify.findOne({_id:ObjectId(data)})
+if (response==null){
+    res.sendFile(path.join(__dirname, 'failure.html'))
+}else{
+    const accounts =await cluster.db("mydsaapp").collection("testaccounts")
+    const res2=await accounts.insertOne(JSON.parse(response.account))
+    console.log(res2)
+    await mailverify.deleteOne({_id:data})
+    res.sendFile(path.join(__dirname,"success.html"))
+}
+
+
+
 })
