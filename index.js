@@ -93,7 +93,7 @@ app.post("/signup",async(req,res)=>{
         //const inserteddtata=await accounts.findOne({rollnum:data.rollnum})
         if (res1==null){
             let response=await mailverify.insertOne({account:JSON.stringify(data)})
-            const verificationlink="http://"+hostname+"/mailverify/"+response.insertedId
+            const verificationlink="http://"+req.get("host")+"/mailverify/"+response.insertedId
             await transporter.sendMail({
                 from:"codebox012@gmail.com",
                 to:data.email,
