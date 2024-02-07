@@ -19,10 +19,18 @@ const path = require('path');
 const { error } = require("console");
 app.use(express.static('public'))
 const nodemailer=require('nodemailer')//importing node mailer
+/*
 const transporter=nodemailer.createTransport({
     service:"gmail",
     auth:{user:'codebox012@gmail.com',pass:"posd jyxt spcv yqtr"
 
+    }
+})*/
+const transporter=nodemailer.createTransport({
+    service:"hotmail",
+    auth:{
+        user:"mydsaapp@hotmail.com",
+        pass:"Murali@2004"
     }
 })
 
@@ -98,9 +106,9 @@ app.post("/signup",async(req,res)=>{
             let response=await mailverify.insertOne({account:JSON.stringify(data)})
             const verificationlink="https://"+req.get("host")+"/mailverify/"+response.insertedId
             await transporter.sendMail({
-                from:"codebox012@gmail.com",
+                from:"mydsaapp@hotmail.com",
                 to:data.email,
-                subject:'password reset',
+                subject:'Mail Verification',
                 html:htmlMailVerifyTemplate(verificationlink)
             },(err,info)=>{
                 if(err){
@@ -231,7 +239,7 @@ app.post("/reset/password",async(req,res)=>{
     otphandler[data.rollnum]=otp
     await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
     const mailoptions={
-        from:"codebox012@gmail.com",
+        from:"mydsaapp@hotmail.com",
         to:respo.email,
         subject:'password reset',
         html:htmlOtpTemplate(otp)
@@ -264,7 +272,7 @@ app.post("/reset/verify",async(req,res)=>{
         const mail=await accounts.findOne({rollnum:data.rollnum})
         await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
         let mailmail={
-            from:"codebox012@gmail.com",
+            from:"mydsaapp@hotmail.com",
         to:mail.email,
         subject:'password reset success',
         html:htmlPasswordResetSuccessTemplate(data.rollnum,mail.name)
@@ -337,7 +345,7 @@ app.get("/mailverify/:id", async (req, res) => {
             await mailverify.deleteOne({ _id: new ObjectId(data) });
             const user=JSON.parse(response.account)
             const mailoptions={
-                from:"codebox012@gmail.com",
+                from:"mydsaapp@hotmail.com",
                 to:user.email,
                 subject:'Account Created',
                 html:htmlCongratulationsTemplate(user.name)
@@ -383,8 +391,8 @@ app.get("/solutions/:id",async(req,res)=>{
         }
     }`
     if (solution==null){
-        //res.render('solutionnotfound',{questionId:id})
-        res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
+        res.render('solutionnotfound',{questionId:id})
+        //res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
     }else{
         res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
     }
@@ -393,3 +401,36 @@ app.get("/solutions/:id",async(req,res)=>{
     }
 
 })
+/*
+const temptransporter=nodemailer.createTransport({
+    service:"hotmail",
+    auth:{
+        user:"mydsaapp@hotmail.com",
+        pass:"Murali@2004"
+    }
+})
+const tempmail={
+    from:"mydsaapp@hotmail.com",
+    to:"svnmurali1@gmail.com",
+    sub:"test mail",
+    text:"hello"
+}
+temptransporter.sendMail(tempmail,(err,info)=>{
+    if(err){
+        console.log(err)
+    }else{
+        console.log(info)
+    }
+})
+transporter.sendMail({
+    from:"codebox012@gmail.com",
+    to:"svnmurali1@gmail.com",
+    sub:"test mail",
+    text:"hello"
+},(err,info)=>{
+    if(err){
+        console.log(err)
+    }else{
+        console.log(info)
+    }
+})*/

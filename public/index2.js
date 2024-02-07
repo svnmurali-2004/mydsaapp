@@ -31,7 +31,7 @@ const result=questionsouter.map((item)=>{i=i+1;return `<div class="p-3 border bo
             <h5 class="card-title text-success">${item.title}</h5>
             <p class="card-text text-danger">${item.description}</p>
             <button id=${item._id+"q"} type="button" class="d-flex qbtn btn btn-primary q"> <span class="btn-coding-ninjas me-2"></span><div>Solve</div></button>
-            <div class="sbtn btn btn-danger btn-outline-success " >
+            <div id=${item._id+"s"} class="sbtn btn btn-danger btn-outline-success " >
                  Solution
                     </div><br/>
             ${s}
@@ -48,6 +48,7 @@ console.log(result)
 
 console.log("attaching")
 questionsouter.map((item)=>{ item.map((item)=>{
+document.getElementById(item._id+"s").addEventListener('click',function (){window.location.href="/solutions/"+item._id})
 document.getElementById(item._id+"q").addEventListener("click",function (){
     window.location.href=item.qlink
         })
