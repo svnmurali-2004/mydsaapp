@@ -1,11 +1,11 @@
 
-let arr
-arr=["General Topics","Sorting","Arrays","Strings"]
+//let arr
+//arr=["General Topics","Sorting","Arrays","Strings"]
 //sessionStorage.setItem("userdata",JSON.stringify({_id:"123",name:"murali",rollnum:"160122737060",password:"admin",status:{solved:["2"],score:0}}))
-const userdata=JSON.parse(sessionStorage.getItem("userdata"))
+let userdata=JSON.parse(sessionStorage.getItem("userdata"))
 console.log(userdata)
 
-
+console.log("running")
 let i=-1;
 
 
@@ -59,7 +59,7 @@ document.getElementById(item._id+"m").addEventListener("click",function (){
     });})
 console.log("attachment complete")
 
-const mark=(item)=>{
+const mark=async(item)=>{
     console.log("marking started")
     document.getElementById(item+"m").classList.add("btn-primary","disabled")
     document.getElementById(item+"m").innerHTML="Solved"
@@ -195,3 +195,12 @@ const updateuser=async()=>{
         console.log("userupdate successfull")
     }
 }
+
+setInterval(async()=>{
+    try{
+    let response=await axios.post("/get/user",{rollnum:userdata.rollnum})
+    userdata=response.data}catch(err){
+        console.log(err)
+    }finally{
+    console.log("userupdator executed")}
+},10000)

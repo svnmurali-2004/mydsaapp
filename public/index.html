@@ -20,18 +20,26 @@
       }
       let questionsouter;
       let section
+      let arr
       async function fetchData() {
         try {
           const response = await axios.get("/questions");
           questionsouter = response.data.questions;
           sections=response.data.sections
           console.log("success");
+          arr=response.data.categories
           console.log(questionsouter);
+          axios.post("/get/user",{rollnum:JSON.parse(sessionStorage.getItem("userdata")).rollnum}).then(response=>{
+            sessionStorage.setItem("userdata",JSON.stringify(response.data))
+            console.log(JSON.parse(sessionStorage.getItem("userdata")))
+          }
+          ).catch(err=>{console.log(err)})
+          document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
           // Call functions that depend on questionsouter here
           const script = document.createElement("script");
                 script.src = "index2.js";
                 document.head.appendChild(script);
-                document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
+                
         } catch (error) {
           console.error("Error fetching data:", error);
         }

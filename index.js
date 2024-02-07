@@ -153,6 +153,22 @@ app.post("/signin",async(req,res)=>{
     }finally{
         console.log("signin executed");
     }
+});
+app.post("/get/user",async(req,res)=>{
+    try{
+        const data=req.body
+
+        console.log(data,"data from client")
+        const accounts = cluster.db("mydsaapp").collection("testaccounts")
+        const res1=await accounts.findOne({rollnum:data.rollnum}).catch(error=>{
+            console.error(error)
+        })
+        res.send(res1)
+
+        
+    }catch(err){console.log(err)}finally{
+        console.log("userreturned");
+    }
 })
 
 //leaderboard method
