@@ -9,6 +9,9 @@ const cluster=new MongoClient(uri)
 cluster.connect().then(console.log("connected"));
 const hostname = process.env.HOST || 'localhost';
 const port = process.env.PORT || 5000;
+const htmlPasswordResetSuccessTemplate=require("./htmlPasswordResetSuccessTemplate.js")
+const ejs=require('ejs')
+app.set('view engine',"ejs")
 app.listen(port,()=>{console.log("app listening")
 
 })
@@ -258,7 +261,22 @@ app.post("/reset/verify",async(req,res)=>{
         delete otphandler[data.rollnum]
         const accounts=cluster.db("mydsaapp").collection("testaccounts")
         await accounts.updateOne({rollnum:data.rollnum},{$set:{password:data.password}})
+        const mail=await accounts.findOne({rollnum:data.rollnum})
         await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
+        let mailmail={
+            from:"codebox012@gmail.com",
+        to:mail.email,
+        subject:'password reset success',
+        html:htmlPasswordResetSuccessTemplate(data.rollnum,mail.name)
+
+        }
+        transporter.sendMail(mailmail,(err,info)=>{
+            if(err){
+                console.log(err)
+            }else{
+                console.log(info)
+            }
+        })
         res.send({acknowledged:true})
 
     }else{
@@ -338,3 +356,40 @@ app.get("/mailverify/:id", async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
+
+//solution finder
+app.get("/solutions/:id",async(req,res)=>{
+    try{
+    const id=req.params.id
+    const solutionhandler=await cluster.db("mydsaapp").collection("solutions")
+    const solution=await solutionhandler.findOne({_id:id})
+    var ccode=`#include<iostream>
+
+    int main() {
+        std::cout << "Hey, 
+    Striver!";
+        std::cout << "Hey, 
+    Striver!";
+        return 0;
+    }`;
+    var pcode="456";var jcode=`public class Main {
+        public static void main(String[] args) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    System.out.println("i = " + i + ", j = " + j);
+                    // Nested loop code
+                }
+            }
+        }
+    }`
+    if (solution==null){
+        //res.render('solutionnotfound',{questionId:id})
+        res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
+    }else{
+        res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
+    }
+    }catch(err){
+        console.log(err,"error at line 356")
+    }
+
+})
