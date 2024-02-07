@@ -387,25 +387,8 @@ app.get("/solutions/:id",async(req,res)=>{
     const id=req.params.id
     const solutionhandler=await cluster.db("mydsaapp").collection("solutions")
     const solution=await solutionhandler.findOne({_id:id})
-    var ccode=`#include<iostream>
-
-    int main() {
-        std::cout << "Hey, 
-    Striver!";
-        std::cout << "Hey, 
-    Striver!";
-        return 0;
-    }`;
-    var pcode="456";var jcode=`public class Main {
-        public static void main(String[] args) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    System.out.println("i = " + i + ", j = " + j);
-                    // Nested loop code
-                }
-            }
-        }
-    }`
+    var ccode=solution.ccode
+    var pcode=solution.pcode;var jcode=solution.jcode
     if (solution==null){
         res.render('solutionnotfound',{questionId:id})
         //res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
