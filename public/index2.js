@@ -10,9 +10,10 @@ let i=-1;
 
 
 console.log(questionsouter,"logging questions")
+/*
 const totalquestions=()=>{i=0;
         questionsouter.map((item)=>{i=i+item.length});return i}
-
+*/
 
 const result=questionsouter.map((item)=>{i=i+1;return `<div class="p-3 border border-primary cream-background container"><h3 class="text-center">${arr[i]}</h3><div class="progress">
 <div id=${"substatus"+i} class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">0%</div>
@@ -96,7 +97,6 @@ const mark=async(item)=>{
     updateuser()
     console.log("marking executed successfully")
 }
-
 console.log(htmlCode)
 
 
@@ -111,11 +111,11 @@ console.log(sessionStorage.getItem("userdata"))
   
 ///main status bar updatation
 const mainstatus=()=>{
-    let totalquestion=totalquestions()
-    console.log((Math.ceil(((userdata.status.solved.length)/totalquestion)*100)).toString()+"%")
-document.getElementById("mainstatusheader").innerHTML="Solved :"+(userdata.status.solved.length).toString()+"/"+totalquestion
-document.getElementById("mainstatus").innerHTML=(Math.ceil(((userdata.status.solved.length)/totalquestion)*100)).toString()+"%"
-document.getElementById("mainstatus").style.width=(Math.ceil(((userdata.status.solved.length)/totalquestion)*100)).toString()+"%"}
+   // let totalquestion=totalquestions()
+    console.log((Math.ceil(((userdata.status.solved.length)/totalquestions)*100)).toString()+"%")
+document.getElementById("mainstatusheader").innerHTML="Solved :"+(userdata.status.solved.length).toString()+"/"+totalquestions
+document.getElementById("mainstatus").innerHTML=(Math.ceil(((userdata.status.solved.length)/totalquestions)*100)).toString()+"%"
+document.getElementById("mainstatus").style.width=(Math.ceil(((userdata.status.solved.length)/totalquestions)*100)).toString()+"%"}
 mainstatus()
 console.log("mainstatus executing")
 
@@ -203,4 +203,4 @@ setInterval(async()=>{
         console.log(err)
     }finally{
     console.log("userupdator executed")}
-},10000)
+},60000)

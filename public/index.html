@@ -18,36 +18,7 @@
       }else{
         window.location.href="/signin.html"
       }
-      let questionsouter;
-      let section
-      let arr
-      async function fetchData() {
-        try {
-          const response = await axios.get("/questions");
-          questionsouter = response.data.questions;
-          sections=response.data.sections
-          console.log("success");
-          arr=response.data.categories
-          console.log(questionsouter);
-          axios.post("/get/user",{rollnum:JSON.parse(sessionStorage.getItem("userdata")).rollnum}).then(response=>{
-            sessionStorage.setItem("userdata",JSON.stringify(response.data))
-            console.log(JSON.parse(sessionStorage.getItem("userdata")))
-          }
-          ).catch(err=>{console.log(err)})
-          document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
-          // Call functions that depend on questionsouter here
-          const script = document.createElement("script");
-                script.src = "index2.js";
-                document.head.appendChild(script);
-                
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      }
-      fetchData();
       
-      
-      console.log("removing spinner container")
     </script>
 </head>
 <body >
@@ -106,5 +77,47 @@
       <!-- Custom Loading GIF -->
       <img src="loading.jpg" alt="Loading..." width="100" height="100">
     </div>
+    <script>
+    let questionsouter;
+      let section
+      let arr
+      let totalquestions
+      async function fetchData() {
+        try { if (sessionStorage.getItem('questions')==null){
+          const response = await axios.get("/questions");
+          sessionStorage.setItem("questions",JSON.stringify(response.data))
+          questionsouter = response.data.questions;
+          sections=response.data.sections
+          totalquestions=response.data.totalquestions//total no of questions
+          console.log("success");
+          arr=response.data.categories}
+          else{
+            const response=JSON.parse(sessionStorage.getItem("questions"))
+            questionsouter=response.questions
+            sections=response.sections
+            totalquestions=response.totalquestions
+            arr=response.categories
+          }
+          console.log(questionsouter);
+          axios.post("/get/user",{rollnum:JSON.parse(sessionStorage.getItem("userdata")).rollnum}).then(response=>{
+            sessionStorage.setItem("userdata",JSON.stringify(response.data))
+            console.log(JSON.parse(sessionStorage.getItem("userdata")))
+          }
+          ).catch(err=>{console.log(err)})
+          document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
+          // Call functions that depend on questionsouter here
+          const script = document.createElement("script");
+                script.src = "index2.js";
+                document.body.appendChild(script);
+        
+        } catch (error) {
+          console.log("Error fetching data:", error);
+        }
+      }
+      fetchData();
+      
+      
+      console.log("removing spinner container")
+    </script>
 </body>
 </html>
