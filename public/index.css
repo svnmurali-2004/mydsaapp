@@ -55,14 +55,234 @@
         margin-bottom: 3px;
     }
   }
-  
-  @media only screen and (min-width: 601px) and (max-width: 1024px) {
+  @media only screen and (min-width: 601px) {
     /* Styles for medium screens (e.g., tablets) */
+    .navbar-brand {
+        font-size: 1.5rem;
+        color: green;
+    }
+    .navbar {
+        width: 100%;
+        background-color: #df8456;
+    }
+    .body {
+        background-color: aqua;
+    }
+    .navbtn {
+        width: 100%;
+        margin-bottom: 1%;
+    }
+    #search-input {
+        margin-bottom: 1%;
+    }
+    .markbtn {
+        background-color: rgb(80, 215, 49);
+        width: 100%;
+        margin-bottom: 1%;
+    }
+    .menu-item {
+        width: 50%;
+        min-width: 260px;
+        margin-left: 5%;
+        margin-right: 5%;
+        height: 350px;
+    }
+    .menu-item:hover {
+        transform: scale(1.05);
+        transition: transform ease-in-out 1s;
+    }
+    .sbtn {
+        margin-top: 2px;
+        width: 100%;
+        margin-bottom: 3px;
+        color: white;
+    }
+    .container1 {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-top: 1%;
+        margin-top: 10px;
+    }
+    .qbtn {
+        width: 100%;
+        margin-bottom: 3px;
+    }
+    /* Repeat other styles for medium screens */
+}
+
+@media only screen and (min-width: 1025px) {
+    /* Styles for large screens (e.g., desktops) */
+    .navbar-brand {
+        font-size: 1.5rem;
+        color: green;
+    }
+    .navbar {
+        width: 100%;
+        background-color: #df8456;
+    }
+    .body {
+        background-color: aqua;
+    }
+    .navbtn {
+        width: 100%;
+        margin-bottom: 1%;
+    }
+    #search-input {
+        margin-bottom: 1%;
+    }
+    .markbtn {
+        background-color: rgb(80, 215, 49);
+        width: 100%;
+        margin-bottom: 1%;
+    }
+    .menu-item {
+        width: 50%;
+        min-width: 260px;
+        margin-left: 5%;
+        margin-right: 5%;
+        height: 350px;
+        margin-bottom: 20px;
+    }
+    .menu-item:hover {
+        transform: scale(1.1);
+        transition: transform ease-in 2s;
+    }
+    .sbtn {
+        margin-top: 2px;
+        width: 100%;
+        margin-bottom: 3px;
+        color: white;
+    }
+    .container1 {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-top: 1%;
+        margin-top: 10px;
+    }
+    .qbtn {
+        width: 100%;
+        margin-bottom: 3px;
+    }
+   .cream-background{
+    background-color: aliceblue;
+    
+   }
+   
+        body {
+            background: linear-gradient(135deg, 
+                rgba(255, 0, 0, 0.3) 0%, 
+                rgba(255, 255, 0, 0.3) 20%, 
+                rgba(0, 128, 0, 0.3) 40%, 
+                rgba(0, 0, 255, 0.3) 60%, 
+                rgba(128, 0, 128, 0.3) 80%, 
+                rgba(255, 0, 0, 0.3) 100%
+            ); /* Rainbow-colored background with transparency */
+            background-size: cover; /* Cover the entire viewport */
+            background-attachment: fixed; /* Fixed background position */
+        
+    }
+    
+    
+    
+    /* Repeat other styles for large screens */
+}
+
+/* Common styles for all screen sizes */
+@keyframes colorChange {
+    0% { color: rgb(224, 8, 252); }
+    25% { color: blue; }
+    50% { color: rgb(102, 255, 176); }
+    75% { color: rgb(255, 0, 0); }
+    100% { color: rgb(12, 210, 255); }
+}
+
+.text {
+    animation: colorChange 10s infinite;
+}
+.blue-background {
+    background-color: rgb(61, 203, 255);
+}
+.btn-coding-ninjas {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-image: url('https://coursereport-production.imgix.net/uploads/school/logo/1323/original/Coding_Ninjas_logo.jpeg?w=200&h=200&dpr=4&q=23');
+    background-size: cover;
+    background-color: #FFF; /* Add background color if needed */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+.out-coding-ninjas {
+    display: inline-flex;
+}
+.progress-bar {
+    background-image: linear-gradient(to right, #FFC300, #FF5733); /* Gradient background */
+    color: #fff; /* Text color */
+}
+
+#mainstatusheader {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Choose your desired text color */
+    text-align: center;
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+@keyframes borderColorChange {
+    0% {
+        background-image: linear-gradient(to right, blue, green); /* Starting gradient */
+    }
+    25% {
+        background-image: linear-gradient(to right, green, yellow); /* Intermediate gradient */
+    }
+    50% {
+        background-image: linear-gradient(to right, yellow, orange); /* Intermediate gradient */
+    }
+    75% {
+        background-image: linear-gradient(to right, orange, red); /* Intermediate gradient */
+    }
+    100% {
+        background-image: linear-gradient(to right, red, purple); /* Ending gradient */
+    }
+}
+
+/* Apply animation to the element */
+.subcontainer {
+    animation: borderColorChange 5s infinite; /* 5s duration, infinitely looping */
+    border: 2px solid transparent; /* Set a transparent border */
+    background-clip: padding-box; /* Clip the background to the padding box */
+}
+.cream-background {
+    background-color: bisque;
+}
+.menu-card {
+    height: 100%;
+}
+.spinner-container {
+    position: fixed; /* Change position to fixed */
+    top: 0; /* Align to the top of the viewport */
+    left: 0; /* Align to the left of the viewport */
+    width: 100%; /* Take up the full width of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 5;
+}
+/*
+  @media only screen and (min-width: 601px) and (max-width: 1024px) {
+    /* Styles for medium screens (e.g., tablets) 
   }
   
   @media only screen and (min-width: 1025px) {
-    /* Styles for large screens (e.g., desktops) */
-  }
+    /* Styles for large screens (e.g., desktops) 
+  }*/
   @keyframes colorChange {
     0% { color: rgb(224, 8, 252); }
     25% { color: blue; }
