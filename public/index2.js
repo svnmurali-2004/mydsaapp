@@ -61,6 +61,7 @@ document.getElementById(item._id+"m").addEventListener("click",function (){
 console.log("attachment complete")
 
 const mark=async(item)=>{
+    document.getElementsByClassName('spinner-container')[0].classList.remove("d-none")
     console.log("marking started")
     document.getElementById(item+"m").classList.add("btn-primary","disabled")
     document.getElementById(item+"m").innerHTML="Solved"
@@ -85,7 +86,7 @@ const mark=async(item)=>{
     let tempi=0
     console.log(sections," sections from mark")
    for(const element of sections){
-
+    console.log("sections update test")
     if (element.includes(item)){
         console.log("sections update executed")
         userdata.status.sections[tempi].push(item);
@@ -95,6 +96,7 @@ const mark=async(item)=>{
    }
     subprogressbar()
     updateuser()
+    document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
     console.log("marking executed successfully")
 }
 console.log(htmlCode)
@@ -192,15 +194,19 @@ const updateuser=async()=>{
         alert("mydsa app crashed please contact owner")
     }else if(response.data.acknowledged==true){
         console.log(response.data)
+        delete response.data.acknowledged
+        sessionStorage.setItem("userdata",JSON.stringify(response.data))
         console.log("userupdate successfull")
     }
 }
-
+/*
 setInterval(async()=>{
     try{
     let response=await axios.post("/get/user",{rollnum:userdata.rollnum})
-    userdata=response.data}catch(err){
+    userdata=response.data
+    console.log(userdata)
+}catch(err){
         console.log(err)
     }finally{
     console.log("userupdator executed")}
-},60000)
+},60000)*/

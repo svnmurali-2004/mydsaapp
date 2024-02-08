@@ -194,8 +194,9 @@ app.post("/userupdate",async(req,res)=>{
     delete data._id
     try{
     let response=await accounts.updateOne({rollnum:data.rollnum},{$set:data})
+    let coresponse=await accounts.findOne({rollnum:data.rollnum})
     console.log(response);
-    res.send(response)}catch(error){
+    res.send({...coresponse,acknowledged:true})}catch(error){
         console.log(error)
         res.send({acknowledged:false})
     }finally{
@@ -387,12 +388,14 @@ app.get("/solutions/:id",async(req,res)=>{
     const id=req.params.id
     const solutionhandler=await cluster.db("mydsaapp").collection("solutions")
     const solution=await solutionhandler.findOne({_id:id})
-    var ccode=solution.ccode
-    var pcode=solution.pcode;var jcode=solution.jcode
+    
     if (solution==null){
         res.render('solutionnotfound',{questionId:id})
         //res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
     }else{
+        console.log(solution)
+        var ccode=solution.ccode
+        var pcode=solution.pcode;var jcode=solution.jcode
         res.render('solution',{cppCode:ccode,pythonCode:pcode,javaCode:jcode})
     }
     }catch(err){
