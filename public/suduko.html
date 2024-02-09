@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyDsaApp Sudoku</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Custom styles for the Sudoku grid and button */
+        .containerouter {
+            display: grid;
+            grid-template-columns: repeat(9, minmax(40px, 1fr));
+            gap: 1px; /* Add gap between grid items */
+        }
+
+        .container-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .input-cell {
+            width: 100%;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        .heading {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2 class="heading">Sudoku Solver</h2>
+        <div class="container-main">
+            <form id="myform" class="containerouter">
+                <!-- Input fields will be generated here -->
+            </form>
+        </div>
+        
+        <div class="container-main">
+            <button id="solveButton" class="btn btn-primary">Solve</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to solve Sudoku
+        function sudokuSolve(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < arr.length; j++) {
+                    if (arr[i][j] == "") {
+                        for (const c of "123456789") {
+                            if (isValid(arr, i, j, c)) {
+                                arr[i][j] = c
+                                if (sudokuSolve(arr)) {
+                                    return true;
+                                } else {
+                                    arr[i][j] = "";
+                                }
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        function isValid(arr, row, col, c) {
+    for (let i = 0; i < 9; i++) {
+        if (arr[row][i] == c && i !== col) { // Check if same number exists in the same row
+            return false;
+        }
+        if (arr[i][col] == c && i !== row) { // Check if same number exists in the same column
+            return false;
+        }
+        if (arr[3 * parseInt(row / 3) + parseInt(i / 3)][3 * parseInt(col / 3) + i % 3] == c &&
+            (3 * parseInt(row / 3) + parseInt(i / 3)) !== row &&
+            (3 * parseInt(col / 3) + i % 3) !== col) { // Check if same number exists in the 3x3 box
+            return false;
+        }
+    }
+    return true;
+}
+       
+        // Generate Sudoku grid inputs
+        let s = "";
+        for (let i = 1; i <= 9; i++) {
+            for (let j = 1; j <= 9; j++) {
+                s += `<input type="number" name="${i}${j}" value="" id="${i}${j}" class="input-cell" />`;
+            }
+        }
+        document.getElementById("myform").innerHTML = s;
+
+        // Event listener for Solve button click
+        document.getElementById("solveButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent form submission
+            const arr = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],]
+            console.log(arr.length)
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    arr[i][j] = document.getElementById(`${i + 1}${j + 1}`).value
+                }
+            }
+            sudokuSolve(arr); // Call the sudokuSolve function when the Solve button is clicked
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    document.getElementById(`${i + 1}${j + 1}`).value = arr[i][j]
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
