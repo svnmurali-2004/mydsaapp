@@ -26,6 +26,13 @@ const transporter=nodemailer.createTransport({
 
     }
 })*/
+/*
+const a=cluster.db("mydsaapp").collection("testaccounts")
+async function abc(){
+    const d=await a.updateMany({},{$set:{"status.sections":[[],[],[],[],[],[],[]]}})
+    console.log(d)
+}
+abc()*/
 const transporter=nodemailer.createTransport({
     service:"hotmail",
     auth:{
