@@ -410,6 +410,65 @@ app.get("/solutions/:id",async(req,res)=>{
     }
 
 })
+
+//exam submission code
+app.post("/getexamstat",async(req,res)=>{
+    try{
+    const data=req.body
+    const examdb=cluster.db("mydsaapp").collection("exam")
+    //const resp=await examdb.insertOne({_id:new Date().getDate(),"examaccounts":[]})
+    const res1=await examdb.findOne({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`})
+    if (res1!=null){//if user not in accounts we will create and return the user
+        const res2=await examdb.findOne({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`,"examaccounts":{$elemMatch:{rollnum:data.rollnum}}},{"examaccounts.$":1})
+        
+        if (res2==null){
+            obj={rollnum:data.rollnum,starttime:new Date().getTime(),endtime:(new Date().getTime()+30*60000)}
+            
+            const res2=await examdb.findOneAndUpdate({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`},{$push:{"examaccounts":obj}})
+            //const res2=await examdb.findOneAndUpdate({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`},{`examaccounts.${data.rollnum}`:obj})
+            
+            res.send(obj)
+        }else{
+            const respo2=res2.examaccounts.find(item=>item.rollnum==data.rollnum)
+            res.send(respo2)//if user is in exam accounts it will returns
+        }
+    }else{res.send({"alert":"exam notfound"})}//res.send(res1)
+}catch(err){
+    console.log(err,"error in get examstat function")
+}
+
+})
+app.post("/examsubmit",async(req,res)=>{
+    try{
+    let data=req.body
+    const examdb=await cluster.db("mydsaapp").collection("exam")
+    const respo1=await examdb.updateOne({_id:`${new Date().getMonth()+1}${new Date().getDate()}`,"examaccounts":{$elemMatch:{rollnum:data.rollnum}}},{$set:{"examaccounts.$":{...data,submit:true}}})
+    res.send({acknowlwdged:true})}
+    catch(err){
+        console.log(err)
+        res.send({acknowledged:false})
+    }
+})
+app.post("/examupdate",async(req,res)=>{
+    try{
+    let data=req.body
+    const examdb=await cluster.db("mydsaapp").collection("exam")
+    const respo1=await examdb.updateOne({_id:`${new Date().getMonth()+1}${new Date().getDate()}`,"examaccounts":{$elemMatch:{rollnum:data.rollnum}}},{$set:{"examaccounts.$":data}})
+    res.send({acknowledged:"true"})}
+    catch(err){
+        console.log(err)
+        res.send({acknowledged:"false"})
+    }
+})
+/*
+async function hello(){
+const examdb=await cluster.db("mydsaapp").collection("exam")
+let data={rollnum:"160122737060"}
+const respo1=await examdb.updateOne({_id:`${new Date().getMonth()+1}${new Date().getDate()}`,"examaccounts":{$elemMatch:{rollnum:data.rollnum}}},{$set:{"examaccounts.$.submit":"true"}},{upsert:true})
+console.log(respo1)
+
+}
+hello()*/
 /*
 const temptransporter=nodemailer.createTransport({
     service:"hotmail",

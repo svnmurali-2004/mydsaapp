@@ -74,7 +74,7 @@
         return; // Stop form submission
       }else{
         
-        const response = await axios.post("/signup",{name:name,rollnum:rollNumber,email:email,password:password,status:{solved:[],score:0,sections:[[],[],[],[]]}})
+        const response = await axios.post("/signup",{name:name,rollnum:rollNumber,email:email,password:password,status:{solved:[],score:0,sections:[[],[],[],[],[],[],[]]}})
         console.log("middle submit")
         if (response.data.acknowledged==true){
           alert("mail sent please verify your mail; if mail not found please check in spam folder")
