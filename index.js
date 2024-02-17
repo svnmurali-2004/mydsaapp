@@ -424,17 +424,19 @@ app.post("/getexamstat",async(req,res)=>{
         if (res2==null){
             obj={rollnum:data.rollnum,starttime:new Date().getTime(),endtime:(new Date().getTime()+30*60000)}
             
-            const res2=await examdb.findOneAndUpdate({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`},{$push:{"examaccounts":obj}})
+            const respo2=await examdb.findOneAndUpdate({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`},{$push:{"examaccounts":obj}})
             //const res2=await examdb.findOneAndUpdate({_id:`${(new Date().getMonth()+1)}${new Date().getDate()}`},{`examaccounts.${data.rollnum}`:obj})
             
-            res.send(obj)
+            res.send({...obj,examquestions:respo2.examquestions})
         }else{
             const respo2=res2.examaccounts.find(item=>item.rollnum==data.rollnum)
-            res.send(respo2)//if user is in exam accounts it will returns
+            res.send({...respo2,examquestions:res2.examquestions})//if user is in exam accounts it will returns
         }
     }else{res.send({"alert":"exam notfound"})}//res.send(res1)
 }catch(err){
     console.log(err,"error in get examstat function")
+}finally{
+    console.log("examstat executed successfully")
 }
 
 })
@@ -442,11 +444,13 @@ app.post("/examsubmit",async(req,res)=>{
     try{
     let data=req.body
     const examdb=await cluster.db("mydsaapp").collection("exam")
-    const respo1=await examdb.updateOne({_id:`${new Date().getMonth()+1}${new Date().getDate()}`,"examaccounts":{$elemMatch:{rollnum:data.rollnum}}},{$set:{"examaccounts.$":{...data,submit:true}}})
-    res.send({acknowlwdged:true})}
+    const respo1=await examdb.updateOne({_id:`${new Date().getMonth()+1}${new Date().getDate()}`,"examaccounts":{$elemMatch:{rollnum:data.rollnum}}},{$set:{"examaccounts.$.submit":true,"examaccounts.$.examans":data.examans}})
+    res.send({acknowledged:true})}
     catch(err){
         console.log(err)
         res.send({acknowledged:false})
+    }finally{
+        console.log("exam submitter executed successfully")
     }
 })
 app.post("/examupdate",async(req,res)=>{

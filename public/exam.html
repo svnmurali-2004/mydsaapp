@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA-Exam</title>
+    <link rel="icon" href="mydsa2.jpg" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .outercontainer{
+            display: flex;
+            justify-content: center;
+            
+        }
+        .header{
+            text-align: center;
+        }
+        .innercontainer{
+                width:90%;
+                
+                text-align: left;
+            }
+        @media (min-width:600px) {
+            .innercontainer{
+                width:50%;
+                
+                text-align: left;
+            }
+        }
+       
+        
+        .question{
+            border:2px solid black;
+            border-radius: 4px;
+            padding: 4px;
+            margin-bottom: 10px;
+            font-size: larger;
+            
+        }
+        .equestion{
+            font-weight:700;
+            background-color: beige;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <h1 class="header">MyDsaApp-Exam </h1>
+    <div class="outercontainer " >
+        
+        <form class="form innercontainer" id="myform">
+            <div id="timer"></div>
+        <div class="question">
+            <p class="equestion">hello what is your name?</p>
+            <div class="options">
+            <input type="radio" name="question1" id="option1" value="yes"/>
+            <label for="option1">yes</label><br/>
+            <input type="radio" name="question1" id="option2" value="no"/>
+            <label for="option2">no</label><br/></div>
+           
+        </div>
+        <div class="question">
+            <p class="equestion"width="100%">are you intrested?</p>
+            <div style="text-align: left;">
+            <input type="radio" name="question2" id="q2option1" value="yes"/>
+            <label for="q2option1">yes</label><br/>
+            <input type="radio" name="question2" id="q2option2" value="no"/>
+            <label for="q2option2">no</label><br/></div>
+          
+        </div>
+        <div class="question">
+            <p class="equestion">hello what is your name?</p>
+            <input type="radio" name="question3" id="q3option1" value="yes"/>
+            <label for="q3option1">yes</label><br/>
+            <input type="radio" name="question3" id="q3option2" value="no"/>
+            <label for="q3option2">no</label><br/>
+            <input id="submit" type="submit" value="submit"/>
+        </div>
+        </form>
+    </div>
+    <script>
+        let examans
+        let starttime;
+        let endtime;
+        let userdata = JSON.parse(sessionStorage.getItem("userdata"));
+        let examquestions
+    
+        if (sessionStorage.getItem("isLogin") == "true") {
+            axios.post("/getexamstat", userdata)
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.submit != true) {
+                        examquestions=response.data.examquestions
+                        starttime = parseInt(response.data.starttime);
+                        endtime = parseInt(response.data.endtime);
+                        console.log(starttime, endtime);
+                        console.log("examtime fetched");
+                        console.log(examquestions);
+                        questionbuilder()
+                        // Call startCountdown function after starttime and endtime are set
+                        startCountdown((endtime - new Date().getTime()) / 1000);
+                        //document.getElementById("myform").innerHTML=
+                    } else {
+                        alert("You already submitted your exam");
+                        window.location.href="/examresult"
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            alert("Not logged in");
+        }
+    
+        function startCountdown(seconds) {
+            const countdownInterval = setInterval(() => {
+                // Calculate remaining minutes and seconds
+                
+                const remainingMinutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+    
+                // Display the remaining time
+                document.getElementById("timer").innerHTML = `Time remaining: ${remainingMinutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    
+                // Decrease seconds by 1
+                seconds--;
+    
+                // Check if the countdown has reached zero
+                if (seconds < 0) {
+                    clearInterval(countdownInterval); // Stop the countdown
+                    console.log("Countdown finished!");
+                    document.getElementById("submit").click()
+                }
+            }, 1000); // Update the timer every second
+        }
+        
+        document.getElementById("myform").addEventListener("submit", function (event) {
+            event.preventDefault();
+            axios.post("/examsubmit",{rollnum:userdata.rollnum,examans:examans}).then(response=>{
+                console.log(response.data)
+                if (response.data.acknowledged==true){
+                    alert ("exam submitted successfully")
+                    window.location.reload()
+                }else{
+                    alert ("exam failed to submit")
+                }
+            })
+        });
+
+
+
+
+
+function questionbuilder() {
+    // Generate exam questions HTML
+    let examquestionsHtml = examquestions.map(item => {
+        let optionsHtml = item.options.map(option => {
+            return `
+                <input type="radio" name="question${item._id}" id="question${item._id}option${option._id}" value="${option.value}" />
+                <label for="question${item._id}option${option._id}">${option.value}</label><br/>
+            `;
+        }).join("");
+
+        return `
+            <div class="question">
+                <p class="question${item._id}">${item.question}</p>
+                <div class="options">
+                    ${optionsHtml}
+                </div>
+            </div>`;
+    }).join(""); // Join the array of HTML strings into a single string
+
+    // Set the generated HTML to the innerHTML of the form
+    document.getElementById("myform").innerHTML = `
+        <div id="timer"></div>
+        ${examquestionsHtml}
+        <input type="submit" value="submit"/>
+    `;
+    if (sessionStorage.getItem("examans") !== null) {
+        console.log("refreshsaver");
+        examans = JSON.parse(sessionStorage.getItem("examans"));
+
+        for (var key in examans) {
+            var obj = examans[key]; // Get the object corresponding to the key
+            console.log(obj)
+            document.getElementById(`question${key}option${obj.optionid}`).checked = true;
+        }
+        console.log("answers retrieval after refresh working ")
+        } else {
+            examans = {};
+            }
+
+    // Add event listeners to radio input elements after rendering them to the DOM
+    examquestions.forEach(question => {
+        question.options.forEach(option => {
+            document.getElementById(`question${question._id}option${option._id}`).addEventListener('click', function() {
+                markanswer(question._id, option._id, option.value);
+            });
+        });
+    });
+
+    }
+
+
+    
+    
+        function markanswer(questionid,optionid,optionvalue){
+            examans[questionid]={optionid:optionid,optionvalue:optionvalue}
+            console.log(examans)
+            sessionStorage.setItem("examans",JSON.stringify(examans))
+        }
+
+
+        
+        console.log("final")
+</script>
+    
+        
+</body>
+</html>
