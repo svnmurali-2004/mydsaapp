@@ -44,8 +44,15 @@ const result=questionsouter.map((item)=>{i=i+1;return `<div class="p-3 border bo
 })
 
 const htmlCode=result.join(" ")
+
+//  new change by using asyncronous function
+async function htmlbuilderfunction(){
 document.getElementById("containermain").innerHTML = htmlCode;
-console.log(result)
+document.getElementsByClassName('spinner-container')[0].classList.add("d-none")
+console.log(result)}
+
+htmlbuilderfunction()//calling html building function
+
 
 console.log("attaching")
 questionsouter.map((item)=>{ item.map((item)=>{
@@ -139,6 +146,7 @@ function solvedfilter(){
         item.classList.add("d-none")
     })
     document.getElementById("myAlert").classList.remove("d-none")
+    document.getElementById("clear-filter-id").classList.remove("d-none")
     document.getElementById("myalerttext").innerHTML="filter solved applied"
     document.getElementById("navbar-toggler-button").click();//to close the nav bar after clicking button
     console.log("solved filter executed")
@@ -156,8 +164,21 @@ function unsolvedfilter(){
     })
     document.getElementById("myAlert").classList.remove("d-none")
     document.getElementById("myalerttext").innerHTML="filter unsolved applied"
+    document.getElementById("clear-filter-id").classList.remove("d-none")
     document.getElementById("navbar-toggler-button").click();//to close the nav bar after clicking button
     console.log("solved filter executed")
+}
+function clearfilter(){
+    let solvedlist=Array.from(document.getElementsByClassName("solved-filter"))
+    let unsolvedlist=Array.from(document.getElementsByClassName("unsolved-filter"))
+    solvedlist.map(item=>{
+        item.classList.remove("d-none")
+        
+    })
+    unsolvedlist.map(item=>{
+        item.classList.remove("d-none")
+    })
+    dismissAlert()
 }
 //solvedfilter()
 console.log("script end 2")
@@ -199,6 +220,37 @@ const updateuser=async()=>{
         console.log("userupdate successfull")
     }
 }
+
+//darkmode light mode button maker
+console.log('themestarted')
+const thememode=()=>{
+    const a=sessionStorage.getItem("theme")
+    if (a=="dark"){
+        document.body.classList.add("darkmode")
+        document.getElementById("theme-mode").innerHTML=`<span class="material-symbols-outlined">
+        light_mode
+        </span>
+      Light`
+    }else if(a=="light"||a==null){
+        document.getElementById("theme-mode").innerHTML=`<span class="material-symbols-outlined">
+        dark_mode
+        </span>
+      Dark`
+      
+    }
+}
+thememode()
+function thememodeHandler(){
+    document.body.classList.toggle("darkmode")
+    if (sessionStorage.getItem("theme")=="light"||sessionStorage.getItem("theme")==null){
+        sessionStorage.setItem('theme',"dark")
+    }else if(sessionStorage.getItem("theme")=="dark"){
+        sessionStorage.setItem("theme","light")
+    }
+    thememode()
+
+}
+console.log("theme ended")
 /*
 setInterval(async()=>{
     try{

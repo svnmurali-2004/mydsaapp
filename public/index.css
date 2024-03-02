@@ -379,3 +379,25 @@
 .body{
     user-select:none;
 }
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+.navbtn {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.material-symbols-outlined {
+    margin-right: 5px; /* Adjust as needed */
+}
+/* //dark-mode css */
+@media screen and (min-width:1px){
+    .darkmode-menu-card{
+        background-color:black !important;
+    }
+}
