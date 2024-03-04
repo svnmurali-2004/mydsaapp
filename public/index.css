@@ -88,8 +88,8 @@
         height: 350px;
     }
     .menu-item:hover {
-        transform: scale(1.05);
-        transition: transform ease-in-out 1s;
+        transform: scale(1.08);
+        transition: transform ease-in-out 0.5s;
     }
     .sbtn {
         margin-top: 2px;
@@ -145,8 +145,8 @@
         margin-bottom: 20px;
     }
     .menu-item:hover {
-        transform: scale(1.01);
-        transition: transform ease-in 2s;
+        transform: scale(1.08);
+        transition: transform ease-in 0.5s;
     }
     .sbtn {
         margin-top: 2px;

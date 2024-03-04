@@ -62,9 +62,14 @@
     background-attachment: fixed; /* Fixed background position */
     
 }
-    .markbtn:hover{
+    .darkmode{.markbtn:hover{
         background-color: rgb(99, 0, 192);
         color: whitesmoke;
+    }}
+    .markbtn:hover{
+        background-color: rgb(221, 255, 0);
+        color: rgb(252, 0, 0);
     }
+
 }
 
