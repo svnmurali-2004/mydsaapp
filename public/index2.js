@@ -56,9 +56,11 @@ htmlbuilderfunction()//calling html building function
 
 console.log("attaching")
 questionsouter.map((item)=>{ item.map((item)=>{
-document.getElementById(item._id+"s").addEventListener('click',function (){window.location.href="/solutions/"+item._id})
+document.getElementById(item._id+"s").addEventListener('click',function (){window.open("/solutions/" + item._id, '_blank');
+})
 document.getElementById(item._id+"q").addEventListener("click",function (){
-    window.location.href=item.qlink
+    window.open(item.qlink, '_blank');
+
         })
 document.getElementById(item._id+"m").addEventListener("click",function (){
             mark(item._id)

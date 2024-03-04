@@ -4,7 +4,7 @@
     <!-- ... -->
     <!-- Ensure to include Bootstrap CSS as it's checked in the test cases -->
     <!-- ... -->
-    <link rel="icon" href="mydsa2.jpg" type="image/x-icon">
+    <link rel="icon" href="mydsa2.png" type="image/x-icon">
     <title>MyDsaApp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -26,7 +26,7 @@
     </script>
 
 </head>
-<body style="user-select:none;">
+<body style="user-select:none;" id="body">
     <!-- Navbar -->
     <div class="alert alert-warning alert-dismissible fade show d-none" role="alert" id="myAlert">
       <strong id="myalerttext"></strong>
@@ -89,7 +89,7 @@
         
       </div>
     </nav>
-    <div class="container mt-2 mb-3">
+    <div class="container mt-2 mb-3 container0">
       <h5 id="mainstatusheader">status</h5>
       <div class="progress">
         <div id="mainstatus" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">0%</div>

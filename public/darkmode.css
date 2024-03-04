@@ -1,3 +1,70 @@
 .darkmode .menu-card{
     background-color: rgb(10, 10, 75) !important;
 }
+.darkmode .container{
+    background-color: #000 !important;
+} 
+.darkmode #containermain{
+    background-color: #000 !important;
+}
+.darkmode body.darkmode{
+    background: #000 !important;
+}
+.darkmode h3{
+ color: aliceblue !important;
+}
+.darkmode h5{
+    color:rgb(136, 253, 136) !important;
+}
+.darkmode p{
+    color: rgb(255, 131, 131) !important;
+}
+.darkmode .progress{
+    background-color:  rgb(98, 110, 120) !important;
+}
+.darkmode #navbar-toggler-button{
+    background-color: rgb(0, 0, 0) !important;
+}
+.darkmode .navbar-toggler-icon{
+    background-color: black !important;
+     color: white !important;
+}
+/* .darkmode button {
+    color: white !important;
+} */
+.darkmode #mainstatusheader{
+    color: white !important;
+}
+
+/* Dark mode */
+.navbar-toggler.btn-outline-dark.bg-white {
+    border-color: #343a40 !important; /* Adjust border color */
+    color: #ecf1f6 !important; /* Adjust text color */
+    background-color : white !important; /* Adjust background color */
+}
+
+.navbar-toggler.btn-outline-dark.bg-white .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important; /* Adjust icon color */
+}
+
+    .darkmode  .container1{
+        background-color: #2b2929 ;
+    }
+
+
+.darkmode .p-3 {
+    border:#000 !important;
+}
+@media only screen and (min-width: 1px) {
+    body.darkmode#body{
+        background: rgb(13, 12, 12); /* Solid black background */
+    background-size: cover; /* Cover the entire viewport */
+    background-attachment: fixed; /* Fixed background position */
+    
+}
+    .markbtn:hover{
+        background-color: rgb(99, 0, 192);
+        color: whitesmoke;
+    }
+}
+
