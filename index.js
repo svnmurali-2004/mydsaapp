@@ -36,7 +36,7 @@ abc()*/
 const transporter=nodemailer.createTransport({
     service:"hotmail",
     auth:{
-        user:"mydsaapp@hotmail.com",
+        user:"mydsaapp@outlook.com",
         pass:"Murali@2004"
     }
 })
@@ -113,7 +113,7 @@ app.post("/signup",async(req,res)=>{
             let response=await mailverify.insertOne({account:JSON.stringify(data)})
             const verificationlink="https://"+req.get("host")+"/mailverify/"+response.insertedId
             await transporter.sendMail({
-                from:"mydsaapp@hotmail.com",
+                from:"mydsaapp@outlook.com",
                 to:data.email,
                 subject:'Mail Verification',
                 html:htmlMailVerifyTemplate(verificationlink)
@@ -263,7 +263,7 @@ app.post("/reset/password",async(req,res)=>{
     otphandler[data.rollnum]=otp
     await otpcluster.updateOne({"role":"reset"},{$set:{"otphandler":otphandler}})
     const mailoptions={
-        from:"mydsaapp@hotmail.com",
+        from:"mydsaapp@outlook.com",
         to:respo.email,
         subject:'password reset',
         html:htmlOtpTemplate(otp)
@@ -369,7 +369,7 @@ app.get("/mailverify/:id", async (req, res) => {
             await mailverify.deleteOne({ _id: new ObjectId(data) });
             const user=JSON.parse(response.account)
             const mailoptions={
-                from:"mydsaapp@hotmail.com",
+                from:"mydsaapp@outlook.com",
                 to:user.email,
                 subject:'Account Created',
                 html:htmlCongratulationsTemplate(user.name)
