@@ -7,8 +7,15 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    body{
+      user-select: none;
+      background-color:#a6bcd173 ;
+    }
     .container {
       margin-top: 50px;
+    }
+    .sign-up-container{
+      background-color: white;
     }
   </style>
   <link rel="icon" href="mydsa2.png" type="image/x-icon">
@@ -17,8 +24,8 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8 col-sm-10">
-        <div class="border rounded p-4">
+      <div class="col-lg-6 col-md-8 col-sm-10 ">
+        <div class="border rounded p-4 sign-up-container">
           <h2 class="text-center mb-4">Sign Up</h2>
           <form id="signupForm">
             <div class="form-group">
@@ -50,7 +57,6 @@
       </div>
     </div>
   </div>
-
   <!-- JavaScript -->
   <script>
     console.log("executed")

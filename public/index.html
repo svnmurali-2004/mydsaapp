@@ -1,9 +1,14 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <!-- ... -->
     <!-- Ensure to include Bootstrap CSS as it's checked in the test cases -->
     <!-- ... -->
+
     <link rel="icon" href="mydsa2.png" type="image/x-icon">
     <title>MyDsaApp</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,20 +18,27 @@
     <link href="index.css" rel="stylesheet"/>
     <link href="darkmode.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <script>
+   
+   <script>
+
       //sessionStorage.setItem("isLogin",false)
+
       console.log(sessionStorage.getItem("userdata"))
       
       if (sessionStorage.getItem("isLogin")=="true"){
         console.log("loggin success")
-      }else{
+      }
+      
+      else{
         window.location.href="/signin.html"
       }
       
     </script>
 
 </head>
+
 <body style="user-select:none;" id="body">
+
     <!-- Navbar -->
     <div class="alert alert-warning alert-dismissible fade show d-none" role="alert" id="myAlert">
       <strong id="myalerttext"></strong>

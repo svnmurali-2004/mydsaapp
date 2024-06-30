@@ -401,3 +401,25 @@
         background-color:black !important;
     }
 }
+.dropdown-item{
+    border:  1px solid black;
+    text-align: center;
+    font-size: 1rem;
+    width: 80%;
+    padding: 10px;
+    color: #5f5f5f;
+    background-color: #FFC300;
+    border-radius: 5px;
+    margin: 0.3rem; 
+    margin-left: 1rem;
+
+}
+/* .dropdown-menu{
+    text-align: center;
+} */
+.dropdown-item:hover{
+    background-color: #ecb605;
+}
+#leaderboard,#about,#contact,#signout,#theme-mode{
+    transition: background-color 0.1s ease;
+}
