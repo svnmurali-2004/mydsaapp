@@ -9,14 +9,29 @@
     <style>
         /* Custom styles */
         body {
+            user-select: none;
             padding: 20px;
+            background-color:#a6bcd173;
         }
+        @keyframes colorChange {
+    0% { color: rgb(225, 0, 255); }
+    25% { color: blue; }
+    50% { color: rgb(0, 249, 120); }
+    75% { color: rgb(255, 0, 0); }
+    100% { color: rgb(0, 208, 255); }
+}
+   .displ{
+    animation: colorChange 5s infinite;
+    }
         
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="display-4">DSA Solution Not Found</h1>
+        <div class="maintop">
+            <h1 class="display-4">DSA Solution Not Found</h1>
+            <!-- <a class="displ"   href="/"  >DSA Solution Not Found</a> -->
+        </div>
         
         <p class="lead">Sorry, we couldn't find a solution for the provided question ID. Please contact our DSA team for assistance.</p>
         
