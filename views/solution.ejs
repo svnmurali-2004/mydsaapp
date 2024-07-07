@@ -4,30 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DSA Solutions</title>
-    <!-- <link href="themes/prism.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/night-owl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/srcery.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.css" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="solution2.css"> -->
+    
     <style>
-            h2,h1{
+        .text-muted{
+            user-select: none;
+        }
+
+            h1{
                 user-select: none;
+                animation: colorChange 5s infinite;
+                text-align: center;
+            }
+            h2{
+                user-select: none;
+                   
             }
             .coding-editor {
-            background-color: #000;
+            /* background-color: #000; */
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 10px;
             overflow: auto;
         }
+        body{
+            background-color:#a6bcd173;
+            /* background-color:#a6bcd1; */
+        }
         .footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: #f8f9fa;
+            /* background-color: #f8f9fa; */
+            background-color:#a6bcd1;
             padding: 10px 0;
             text-align: center;
         }
          .coding-editor {
-            background-color: #000;
+            /* background-color: #000;  */
+             background-color: #1E1E1E;  
+
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 10px;
@@ -36,22 +54,35 @@
             overflow: auto;
         }
         .footer {
-            position: fixed;
+            /* position: fixed; */
+            position: relative;
+            border: none;
             bottom: 0;
             width: 100%;
-            background-color: #f8f9fa;
+            /* background-color: #f8f9fa; */
+            background-color:#a6bcd1;
+            background: linear-gradient(to bottom, #a6bcd11a, white);
             padding: 10px 0;
             text-align: center;
+            border-radius: 7px;
+            /* font-weight: bold; */
         }
-        .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
+        @keyframes colorChange {
+    0% { color: rgb(225, 0, 255); }
+    25% { color: blue; }
+    50% { color: rgb(0, 249, 120); }
+    75% { color: rgb(255, 0, 0); }
+    100% { color: rgb(0, 208, 255); }
+}
+        /* .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
     color: #9a6e3a;
-    background: black;
-       }
+    background: black; */
+       /* } */
         pre[class*="language-"] {
             color: rgb(247, 237, 237) !important; 
-            background: black;
+            /* background: black; */
             text-shadow:none !important; 
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; /* Code font family */
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; 
             font-size: 1em; 
             text-align: left;
             white-space: pre;
@@ -68,6 +99,11 @@
             color: inherit; 
             background: none; 
         }
+        .hljs {
+    background: #f3f3f3;
+    color: #abd103 !important; 
+ 
+                  }
         @media (max-width: 768px) {
   .navbar-toggler {
     display: block;
@@ -105,12 +141,9 @@
             <p class="text-muted">© 2024 MyDSA App. All Rights Reserved.</p>
         </div>
     </footer>
-    <!-- <script src="prism.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-cpp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-java.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script>hljs.highlightAll();</script>
 </body>
 </html>
  
